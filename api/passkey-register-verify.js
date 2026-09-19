@@ -1,9 +1,10 @@
 const { verifyRegistrationResponse } = require("@simplewebauthn/server");
-const { getOrigin, getRpId, getSessionId, json, kv, requireMethod } = require("./_passkey");
+const { getOrigin, getRpId, getSessionId, json, requireMethod, requireStorage } = require("./_passkey");
 
 module.exports = async function handler(request, response) {
   if (!requireMethod(request, response, "POST")) return;
   try {
+    const kv = requireStorage();
     const sessionId = getSessionId(request, response);
     const pending = await kv.get(`passkey:registration:${sessionId}`);
     if (!pending) return json(response, 400, { error: "Passkey setup expired. Please try again." });

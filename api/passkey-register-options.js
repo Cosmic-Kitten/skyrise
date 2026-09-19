@@ -1,9 +1,10 @@
 const { generateRegistrationOptions } = require("@simplewebauthn/server");
-const { getRpId, getSessionId, json, kv, requireMethod } = require("./_passkey");
+const { getRpId, getSessionId, json, requireMethod, requireStorage } = require("./_passkey");
 
 module.exports = async function handler(request, response) {
   if (!requireMethod(request, response, "POST")) return;
   try {
+    const kv = requireStorage();
     const { username } = request.body || {};
     const normalizedUsername = String(username || "").trim().toLowerCase();
     if (!normalizedUsername || normalizedUsername.length > 40) {

@@ -1,9 +1,10 @@
 const { generateAuthenticationOptions } = require("@simplewebauthn/server");
-const { getRpId, getSessionId, json, kv, requireMethod } = require("./_passkey");
+const { getRpId, getSessionId, json, requireMethod, requireStorage } = require("./_passkey");
 
 module.exports = async function handler(request, response) {
   if (!requireMethod(request, response, "POST")) return;
   try {
+    const kv = requireStorage();
     const options = await generateAuthenticationOptions({
       rpID: getRpId(request),
       userVerification: "required",

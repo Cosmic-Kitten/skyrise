@@ -1,7 +1,17 @@
 const crypto = require("crypto");
 const { Redis } = require("@upstash/redis");
 
-const kv = Redis.fromEnv();
+const hasRedisConfig = Boolean(process.env.UPSTASH_REDIS_REST_URL && process.env.UPSTASH_REDIS_REST_TOKEN);
+const kv = hasRedisConfig ? Redis.fromEnv() : null;
+
+function requireStorage() {
+  if (!kv) {
+    const error = new Error("Passkey storage is not configured. Connect Upstash Redis to the Vercel project and redeploy.");
+    error.code = "PASSKEY_STORAGE_NOT_CONFIGURED";
+    throw error;
+  }
+  return kv;
+}
 
 function getOrigin(request) {
   return process.env.PASSKEY_ORIGIN || (process.env.VERCEL_URL
@@ -35,4 +45,4 @@ function requireMethod(request, response, method) {
   return true;
 }
 
-module.exports = { getOrigin, getRpId, getSessionId, json, kv, requireMethod };
+module.exports = { getOrigin, getRpId, getSessionId, json, kv, requireMethod, requireStorage };
