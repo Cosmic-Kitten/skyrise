@@ -8,11 +8,12 @@ module.exports = async function handler(request, response) {
     const pending = await kv.get(`passkey:authentication:${sessionId}`);
     if (!pending) return json(response, 400, { error: "Passkey sign-in expired. Please try again." });
 
-    const user = pending.username ? await kv.get(`passkey:user:${pending.username}`) : null;
-    if (!user) return json(response, 404, { error: "Runner not found. Enter your runner name first." });
     const credentialId = request.body && request.body.id;
+    const username = credentialId ? await kv.get(`passkey:credential:${credentialId}`) : null;
+    const user = username ? await kv.get(`passkey:user:${username}`) : null;
+    if (!user) return json(response, 401, { error: "That passkey is not registered." });
     const credential = user.credentials.find(item => item.id === credentialId);
-    if (!credential) return json(response, 401, { error: "That passkey is not registered for this runner." });
+    if (!credential) return json(response, 401, { error: "That passkey is not registered." });
 
     const verification = await verifyAuthenticationResponse({
       response: request.body,

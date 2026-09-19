@@ -32,6 +32,7 @@ module.exports = async function handler(request, response) {
       userId: pending.userId,
       credentials: [credential]
     });
+    await kv.set(`passkey:credential:${credential.id}`, pending.username);
     await kv.del(`passkey:registration:${sessionId}`);
     return json(response, 200, { verified: true, username: pending.username });
   } catch (error) {

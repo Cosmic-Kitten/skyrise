@@ -1308,14 +1308,9 @@
       }
 
       async function signInWithPasskey() {
-        var username = getText("Username").trim().toLowerCase();
-        if (!username) {
-          setText("ErrorMsg", "Enter your runner name first.");
-          return;
-        }
         try {
           var browser = await getPasskeyBrowser();
-          var options = await passkeyRequest("/api/passkey-auth-options", { username: username });
+          var options = await passkeyRequest("/api/passkey-auth-options");
           var assertion = await browser.startAuthentication({ optionsJSON: options });
           var result = await passkeyRequest("/api/passkey-auth-verify", assertion);
           playerName = result.username;
