@@ -3,6 +3,7 @@ const APP_SHELL = [
   "./index.html",
   "./gemini-code-1789779043179.html",
   "./manifest.json",
+  "./icon.png",
   "./icon.svg"
 ];
 

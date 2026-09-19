@@ -330,8 +330,6 @@
           .purple-btn { background: linear-gradient(135deg, rgba(196,183,255,0.74), rgba(131,126,236,0.5)) !important; }
 
           #scrLogin, #scrSignup { justify-content: center; }
-          .passkey-btn { background: rgba(255,255,255,0.28) !important; color: var(--white); }
-          .passkey-btn::before { content: "◈"; margin-right: 8px; }
           #scrLogin .banner, #scrSignup .banner { background: rgba(255,255,255,0.13) !important; font-weight: 600; letter-spacing: -0.4px; }
           #scrLogin .banner::first-line, #scrSignup .banner::first-line { color: var(--white); }
           #scrLogin label, #scrSignup label { color: var(--soft-white); font-size: 11px !important; font-weight: 600; letter-spacing: 0.2px; text-transform: uppercase; }
@@ -402,7 +400,6 @@
         <div style="width: 100%;">
           <button id="btnSubmit" class="green-btn" style="border-radius: 20px;">Continue run</button>
           <button id="btnSignup" class="purple-btn" style="border-radius: 20px;">Create runner</button>
-            <button id="btnPasskey" class="passkey-btn" type="button">Use passkey</button>
             <p id="ErrorMsg" style="color: #ff6b6b; text-align: center; font-size: 14px; margin: 4px 0;"></p>
         </div>
         <button class="red-btn" style="width: auto; padding: 6px 16px; font-size: 12px;">Reset form</button>
@@ -419,8 +416,6 @@
         </div>
         <div style="width: 100%;">
             <button id="btnSubmit2" class="green-btn" style="border-radius: 20px;">Start new run</button>
-            <button id="btnPasskeySignup" class="passkey-btn" type="button">Create with passkey</button>
-            <p id="SignupMsg" style="color: #ffd2e1; text-align: center; font-size: 14px; margin: 4px 0;"></p>
         </div>
     </div>
 
@@ -580,94 +575,6 @@
       var punchCooldown = 500, lastPunchAt = 0, enemyDamage = 1;
 
       setScreen("scrLogin");
-
-      var PASSKEYS_KEY = "skyRisePasskeys";
-
-      function bytesToBase64Url(bytes) {
-        var binary = "";
-        for (var i = 0; i < bytes.length; i++) binary += String.fromCharCode(bytes[i]);
-        return btoa(binary).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
-      }
-
-      function base64UrlToBytes(value) {
-        var padded = value.replace(/-/g, "+").replace(/_/g, "/");
-        while (padded.length % 4) padded += "=";
-        var binary = atob(padded), bytes = new Uint8Array(binary.length);
-        for (var i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
-        return bytes;
-      }
-
-      function getPasskeys() {
-        try { return JSON.parse(localStorage.getItem(PASSKEYS_KEY) || "[]"); }
-        catch (error) { return []; }
-      }
-
-      function setPasskeys(passkeys) {
-        localStorage.setItem(PASSKEYS_KEY, JSON.stringify(passkeys));
-      }
-
-      function passkeyError(error, targetId) {
-        var message = error && error.name === "NotAllowedError"
-          ? "Passkey prompt cancelled."
-          : "Passkeys need HTTPS or localhost and a supported browser.";
-        setText(targetId, message);
-      }
-
-      function createPasskey() {
-        var user = getText("Username2").trim().toLowerCase();
-        if (!user) { setText("SignupMsg", "Enter a runner name first."); return; }
-        if (!window.PublicKeyCredential || !window.isSecureContext) {
-          setText("SignupMsg", "Passkeys require HTTPS or localhost."); return;
-        }
-
-        var challenge = crypto.getRandomValues(new Uint8Array(32));
-        var userId = crypto.getRandomValues(new Uint8Array(16));
-        navigator.credentials.create({ publicKey: {
-          challenge: challenge,
-          rp: { name: "Sky Rise", id: location.hostname },
-          user: { id: userId, name: user, displayName: user },
-          pubKeyCredParams: [{ type: "public-key", alg: -7 }, { type: "public-key", alg: -257 }],
-          authenticatorSelection: { residentKey: "required", userVerification: "required" },
-          timeout: 60000,
-          attestation: "none"
-        }}).then(function(credential) {
-          var passkeys = getPasskeys().filter(function(item) { return item.username !== user; });
-          passkeys.push({ username: user, credentialId: bytesToBase64Url(new Uint8Array(credential.rawId)) });
-          setPasskeys(passkeys);
-          playerName = user;
-          loadGame();
-          setScreen("scrFight");
-          currentScreen = "scrFight";
-        }).catch(function(error) { passkeyError(error, "SignupMsg"); });
-      }
-
-      function signInWithPasskey() {
-        var user = getText("Username").trim().toLowerCase();
-        var passkeys = getPasskeys().filter(function(item) { return !user || item.username === user; });
-        if (!passkeys.length) { setText("ErrorMsg", "No passkey found for this runner."); return; }
-        if (!window.PublicKeyCredential || !window.isSecureContext) {
-          setText("ErrorMsg", "Passkeys require HTTPS or localhost."); return;
-        }
-
-        navigator.credentials.get({ publicKey: {
-          challenge: crypto.getRandomValues(new Uint8Array(32)),
-          rpId: location.hostname,
-          allowCredentials: passkeys.map(function(item) {
-            return { type: "public-key", id: base64UrlToBytes(item.credentialId) };
-          }),
-          userVerification: "required",
-          timeout: 60000
-        }}).then(function(assertion) {
-          var credentialId = bytesToBase64Url(new Uint8Array(assertion.rawId));
-          var match = passkeys.find(function(item) { return item.credentialId === credentialId; });
-          if (!match) { setText("ErrorMsg", "That passkey is not linked to this app."); return; }
-          playerName = match.username;
-          loadGame();
-        }).catch(function(error) { passkeyError(error, "ErrorMsg"); });
-      }
-
-      onEvent("btnPasskey", "click", signInWithPasskey);
-      onEvent("btnPasskeySignup", "click", createPasskey);
 
       onEvent("btnSignup", "click", function() {
         setText("ErrorMsg", "");
