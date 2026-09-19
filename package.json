@@ -1,6 +1,7 @@
 {
   "private": true,
   "dependencies": {
+    "@simplewebauthn/browser": "^13.2.1",
     "@simplewebauthn/server": "^13.2.1",
     "@upstash/redis": "^1.35.3"
   }

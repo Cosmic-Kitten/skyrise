@@ -10,6 +10,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <link rel="apple-touch-icon" href="icon.svg">
     <meta name="theme-color" content="#096A6A">
+    <script src="https://unpkg.com/@simplewebauthn/browser@13.2.1/dist/bundle/index.umd.min.js" defer></script>
     <style>
         body { 
             font-family: Arial, sans-serif; 
@@ -1263,16 +1264,14 @@
       var punchCooldown = 500, lastPunchAt = 0, enemyDamage = 1;
       var passiveTicker = null;
       var oldVersionEnabled = false;
-      var passkeyBrowserPromise = null;
-
       function getPasskeyBrowser() {
         if (!window.isSecureContext || !window.PublicKeyCredential) {
           throw new Error("Passkeys require HTTPS or localhost in a supported browser.");
         }
-        if (!passkeyBrowserPromise) {
-          passkeyBrowserPromise = import("https://esm.sh/@simplewebauthn/browser@13.2.1");
+        if (!window.SimpleWebAuthnBrowser) {
+          throw new Error("Passkey support could not load. Refresh the page and try again.");
         }
-        return passkeyBrowserPromise;
+        return window.SimpleWebAuthnBrowser;
       }
 
       async function passkeyRequest(path, body) {
