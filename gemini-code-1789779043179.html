@@ -232,12 +232,28 @@
           }
 
           #scrLogin::before { content: "SKY RISE / ACCESS"; }
-          #scrSignup::before { content: "SKY RISE / NEW RUNNER"; }
+          #scrSignup::before { content: "SKY RISE / NEW PROFILE"; }
           #scrFight::before { content: "SKY RISE / COMBAT DECK"; }
           #scrUpg::before { content: "SKY RISE / LOADOUT"; }
           #scrBoss::before { content: "SKY RISE / BOSS ALERT"; color: var(--coral); }
           #NHRL::before { content: "SKY RISE / LOCKED"; }
           #scrDeath::before { content: "SKY RISE / RUN ENDED"; color: var(--coral); }
+
+          .screen-art { position: absolute; z-index: 0; pointer-events: none; }
+          .screen > *:not(.screen-art) { position: relative; z-index: 1; }
+          .auth-art { top: 92px; right: 28px; width: 116px; height: 116px; border: 1px solid rgba(141,255,201,0.5); border-radius: 50%; box-shadow: 0 0 0 16px rgba(141,255,201,0.08), 0 0 0 32px rgba(105,168,255,0.06), 0 0 34px rgba(141,255,201,0.22); }
+          .auth-art::before { content: ""; position: absolute; inset: 24px; border: 2px dashed rgba(255,214,138,0.72); border-radius: 50%; animation: ring-pulse 2.8s ease-in-out infinite; }
+          .auth-art::after { content: "✦"; position: absolute; inset: 0; display: grid; place-items: center; color: #fff4c7; font-size: 28px; text-shadow: 0 0 18px #ffd68a; }
+          .loadout-art { top: 100px; right: 30px; width: 112px; height: 112px; opacity: 0.7; background: linear-gradient(90deg, rgba(141,255,201,0.8) 2px, transparent 2px), linear-gradient(rgba(141,255,201,0.8) 2px, transparent 2px); background-size: 28px 28px; transform: rotate(12deg); box-shadow: 0 0 28px rgba(141,255,201,0.18); }
+          .loadout-art::after { content: "+"; position: absolute; inset: 0; display: grid; place-items: center; color: #fff; font-size: 58px; font-weight: 200; text-shadow: 0 0 18px #8dffc9; }
+          .boss-art { top: 92px; left: 50%; width: 220px; height: 220px; border: 2px solid rgba(255,158,203,0.62); border-radius: 50%; transform: translateX(-50%); box-shadow: 0 0 0 18px rgba(255,158,203,0.1), 0 0 0 38px rgba(196,183,255,0.08), inset 0 0 40px rgba(255,158,203,0.12); }
+          .boss-art::before { content: ""; position: absolute; inset: 36px; border: 1px dashed rgba(255,214,138,0.78); border-radius: 50%; transform: rotate(45deg); }
+          .boss-art::after { content: "!"; position: absolute; inset: 0; display: grid; place-items: center; color: #ffd0ea; font-size: 72px; font-weight: 900; text-shadow: 0 0 24px #ff6fbd; }
+          .lock-art { top: 98px; left: 50%; width: 116px; height: 92px; border: 3px solid rgba(182,255,232,0.7); border-radius: 16px; transform: translateX(-50%); background: rgba(105,168,255,0.12); box-shadow: 0 0 30px rgba(105,168,255,0.22); }
+          .lock-art::before { content: ""; position: absolute; width: 58px; height: 62px; left: 26px; top: -48px; border: 3px solid rgba(182,255,232,0.7); border-bottom: 0; border-radius: 40px 40px 0 0; }
+          .lock-art::after { content: "•"; position: absolute; inset: 0; display: grid; place-items: center; color: #ffd68a; font-size: 44px; }
+          .death-art { top: 84px; left: 50%; width: 260px; height: 260px; transform: translateX(-50%) rotate(12deg); opacity: 0.7; background: repeating-conic-gradient(from 8deg, rgba(255,107,136,0.28) 0deg 7deg, transparent 7deg 18deg); clip-path: polygon(50% 0, 61% 35%, 86% 14%, 70% 43%, 100% 50%, 67% 58%, 86% 86%, 58% 68%, 50% 100%, 41% 68%, 14% 86%, 33% 58%, 0 50%, 33% 43%, 14% 14%, 42% 35%); }
+          .death-art::after { content: "×"; position: absolute; inset: 0; display: grid; place-items: center; color: #ffd1df; font-size: 86px; font-weight: 200; text-shadow: 0 0 24px #ff6fbd; }
 
           .screen::after {
             content: "";
@@ -322,7 +338,7 @@
           #scrFight #dropActions { border: 0; }
 
           #scrUpg, #scrBoss, #NHRL, #scrDeath { justify-content: flex-start; gap: 18px; }
-          #scrUpg > div:nth-child(2) { margin-top: 18px; gap: 6px !important; }
+          #scrUpg > div:nth-child(3) { margin-top: 18px; gap: 6px !important; }
           #scrUpg button { min-height: 56px; text-align: left; padding-left: 18px; }
           #scrUpg #btnBack { min-height: 36px; }
           #scrUpg .banner:last-child { margin-top: auto; }
@@ -450,21 +466,38 @@
 
           #scrFight { gap: 12px; }
           #scrFight > .battle-heading { display: flex; align-items: center; justify-content: space-between; width: 100%; }
+          .app-bar { display: flex; align-items: center; justify-content: space-between; width: 100%; min-height: 34px; }
+          .app-brand { display: flex; align-items: center; gap: 9px; color: var(--white); font-size: 12px; font-weight: 800; letter-spacing: 1.3px; }
+          .app-mark { display: grid; width: 25px; height: 25px; place-items: center; border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; background: linear-gradient(145deg, #8dffc9, #69a8ff); color: #143252; font-size: 14px; box-shadow: 0 5px 14px rgba(105,168,255,0.25); }
+          .app-profile { display: flex; align-items: center; gap: 7px; color: var(--soft-white); font-size: 10px; font-weight: 700; }
+          .profile-dot { width: 7px; height: 7px; border-radius: 50%; background: #8dffc9; box-shadow: 0 0 10px #8dffc9; }
           .battle-heading strong { display: block; margin-top: 4px; font-size: 22px; letter-spacing: -0.8px; }
           .eyebrow { color: var(--soft-white); font-size: 9px; font-weight: 700; letter-spacing: 1.7px; }
           .live-dot, .threat-level { color: #b6ffe8; font-size: 9px; font-weight: 800; letter-spacing: 1px; }
           .live-dot::before { content: ""; display: inline-block; width: 6px; height: 6px; margin-right: 5px; border-radius: 50%; background: #8dffc9; box-shadow: 0 0 10px #8dffc9; }
           #scrFight .battle-stats { gap: 10px; }
           #scrFight .battle-stats .banner { flex: 1; width: auto !important; padding: 11px !important; font-size: 12px !important; text-align: left; }
-          .enemy-card { width: 100%; padding: 14px; box-sizing: border-box; border: 1px solid rgba(255,255,255,0.19); border-radius: 20px; background: rgba(16, 28, 71, 0.2); box-shadow: inset 0 1px rgba(255,255,255,0.12); }
+          .enemy-card { width: 100%; padding: 14px; box-sizing: border-box; border: 1px solid rgba(255,255,255,0.19); border-radius: 20px; background: rgba(16, 28, 71, 0.2); box-shadow: inset 0 1px rgba(255,255,255,0.12); transform: perspective(800px) rotateX(2deg); transform-origin: center top; }
           .enemy-card-header { display: flex; justify-content: space-between; margin-bottom: 9px; }
           .enemy-card #lblHP { margin: 0; padding: 0 !important; border: 0; background: transparent !important; box-shadow: none; text-align: left; font-size: 12px !important; letter-spacing: 1.2px; }
           .enemy-health-track { height: 6px; margin-top: 12px; overflow: hidden; border-radius: 99px; background: rgba(0,0,0,0.22); }
           #enemyHealthFill { width: 100%; height: 100%; border-radius: inherit; background: linear-gradient(90deg, #ff9ecb, #ffcf9c); transition: width 220ms ease; }
-          .arena-stage { position: relative; display: flex; flex: 1; width: 100%; min-height: 190px; align-items: center; justify-content: center; overflow: hidden; border-radius: 24px; background: radial-gradient(circle at 50% 55%, rgba(108, 216, 255, 0.2), transparent 32%), linear-gradient(160deg, rgba(255,255,255,0.08), rgba(13,23,59,0.18)); }
-          .arena-grid { position: absolute; inset: 0; opacity: 0.3; background-image: linear-gradient(rgba(164,235,255,0.16) 1px, transparent 1px), linear-gradient(90deg, rgba(164,235,255,0.16) 1px, transparent 1px); background-size: 28px 28px; transform: perspective(180px) rotateX(58deg) scale(1.6); transform-origin: center bottom; }
-          .target-ring { position: absolute; width: 190px; height: 54px; bottom: 25px; border: 1px solid rgba(131, 232, 255, 0.38); border-radius: 50%; box-shadow: 0 0 26px rgba(102, 215, 255, 0.24); animation: ring-pulse 2.4s ease-in-out infinite; }
-          #scrFight .slime-img { position: relative; z-index: 1; margin: 0; }
+          .arena-stage { position: relative; display: flex; flex: 1; width: 100%; min-height: 190px; align-items: center; justify-content: center; overflow: hidden; border-radius: 24px; perspective: 620px; transform-style: preserve-3d; isolation: isolate; background: radial-gradient(circle at 50% 55%, rgba(108, 216, 255, 0.2), transparent 32%), linear-gradient(160deg, rgba(255,255,255,0.08), rgba(13,23,59,0.18)); }
+          .arena-stage .sky-orb { position: absolute; top: 18px; right: 18%; width: 42px; height: 42px; border-radius: 50%; background: #ffd68a; box-shadow: 0 0 26px rgba(255,214,138,0.75), 0 0 70px rgba(255,151,204,0.25); }
+          .arena-stage .skyline { position: absolute; right: 0; bottom: 39px; width: 42%; height: 62px; opacity: 0.52; background: linear-gradient(90deg, transparent 0 8%, #26335e 8% 20%, transparent 20% 25%, #1f2a53 25% 40%, transparent 40% 44%, #293764 44% 61%, transparent 61% 66%, #202a55 66% 86%, transparent 86%); clip-path: polygon(0 100%, 0 38%, 10% 38%, 10% 0, 22% 0, 22% 52%, 34% 52%, 34% 23%, 45% 23%, 45% 46%, 56% 46%, 56% 10%, 68% 10%, 68% 62%, 82% 62%, 82% 31%, 100% 31%, 100% 100%); transform: translateZ(-80px) scale(.9); transform-origin: bottom right; }
+          .arena-stage .particle { position: absolute; width: 4px; height: 4px; border-radius: 50%; background: #b6ffe8; box-shadow: 0 0 9px #8dffc9; animation: particle-drift 3.6s ease-in-out infinite; }
+          .arena-stage .particle-a { top: 28%; left: 27%; }
+          .arena-stage .particle-b { top: 19%; left: 66%; animation-delay: -1.2s; }
+          .arena-stage .particle-c { top: 51%; right: 12%; animation-delay: -2.3s; }
+          .arena-stage::before { content: ""; position: absolute; width: 110px; height: 110px; left: 18%; bottom: 22px; border: 2px solid rgba(141,255,201,0.55); border-radius: 50% 50% 44% 44%; background: linear-gradient(145deg, rgba(141,255,201,0.3), rgba(41,135,133,0.16)); box-shadow: 0 0 24px rgba(141,255,201,0.2), inset 0 -18px rgba(11,59,75,0.2); transform: translateZ(24px) skewY(-4deg); }
+          .arena-stage::after { content: "✦"; position: absolute; left: 23%; bottom: 70px; color: #e7fff7; font-size: 34px; text-shadow: 0 0 14px #8dffc9; transform: translateZ(48px); }
+          .arena-grid { position: absolute; inset: 0; opacity: 0.3; background-image: linear-gradient(rgba(164,235,255,0.16) 1px, transparent 1px), linear-gradient(90deg, rgba(164,235,255,0.16) 1px, transparent 1px); background-size: 28px 28px; transform: perspective(180px) rotateX(58deg) translateZ(-40px) scale(1.6); transform-origin: center bottom; }
+          .target-ring { position: absolute; width: 190px; height: 54px; bottom: 25px; border: 1px solid rgba(131, 232, 255, 0.38); border-radius: 50%; box-shadow: 0 0 26px rgba(102, 215, 255, 0.24); transform: rotateX(68deg) translateZ(12px); animation: ring-pulse 2.4s ease-in-out infinite; }
+          #scrFight .slime-img { position: relative; z-index: 1; margin: 0; transform-style: preserve-3d; animation: float-3d 3.4s ease-in-out infinite; }
+          #scrFight .slime-img::before, #scrBoss .slime-img::before { content: ""; position: absolute; width: 18px; height: 24px; top: 35%; left: 27%; border-radius: 50%; background: #18244b; box-shadow: 52px 0 #18244b; }
+          #scrFight .slime-img::after, #scrBoss .slime-img::after { content: ""; position: absolute; width: 38px; height: 14px; left: 50%; bottom: 24%; border-bottom: 4px solid #18244b; border-radius: 0 0 50% 50%; transform: translateX(-50%); }
+          #scrFight .slime-img span, #scrBoss .slime-img span { position: relative; z-index: 1; }
+          #scrFight .slime-img { box-shadow: inset 18px 16px rgba(255,255,255,0.24), inset -18px -22px rgba(31,77,155,0.3), 0 0 36px rgba(109,198,255,0.42); }
           .enemy-caption { position: absolute; z-index: 2; bottom: 10px; color: rgba(255,255,255,0.62); font-size: 9px; font-weight: 800; letter-spacing: 1.7px; }
           .enemy-caption span { color: #8dffc9; margin: 0 4px; }
           .battle-controls { margin-top: 2px; }
@@ -477,12 +510,18 @@
           .player-health { width: 100%; }
           .player-health > span { display: block; margin-bottom: 6px; color: var(--soft-white); font-size: 9px; font-weight: 700; letter-spacing: 1.5px; }
           #scrFight #hpBar { width: 100%; height: 7px; }
+          .app-nav { display: grid; grid-template-columns: repeat(3, 1fr); gap: 7px; width: 100%; padding: 7px; border: 1px solid rgba(255,255,255,0.17); border-radius: 16px; background: rgba(7,18,53,0.22); box-sizing: border-box; }
+          .app-nav button { min-height: 36px; margin: 0; padding: 5px 4px; border: 0; border-radius: 11px; background: transparent !important; box-shadow: none; color: var(--soft-white); font-size: 10px; font-weight: 700; }
+          .app-nav button:first-child { background: rgba(141,255,201,0.18) !important; color: #d9fff1; }
+          .app-nav button:hover { background: rgba(255,255,255,0.12) !important; }
           .hit-flash { animation: hit-flash 360ms ease-out; }
           .damage-pop { position: absolute; z-index: 3; top: 42%; left: 50%; color: #fff; font-size: 25px; font-weight: 900; text-shadow: 0 2px 14px rgba(255,105,155,0.9); pointer-events: none; animation: damage-pop 520ms ease-out forwards; }
           @keyframes hit-flash { 0% { transform: scale(1) rotate(0); filter: brightness(1); } 35% { transform: scale(0.92) rotate(-5deg); filter: brightness(1.7); } 100% { transform: scale(1) rotate(0); filter: brightness(1); } }
           @keyframes player-hit { 0%, 100% { transform: translateX(0); filter: brightness(1); } 25% { transform: translateX(-7px); filter: brightness(1.6); } 55% { transform: translateX(7px); } }
           @keyframes damage-pop { 0% { opacity: 0; transform: translate(-50%, 10px) scale(.7); } 20% { opacity: 1; } 100% { opacity: 0; transform: translate(-50%, -45px) scale(1.1); } }
-          @keyframes ring-pulse { 0%, 100% { opacity: .45; transform: scaleX(.9); } 50% { opacity: .9; transform: scaleX(1.05); } }
+          @keyframes ring-pulse { 0%, 100% { opacity: .45; transform: rotateX(68deg) translateZ(12px) scaleX(.9); } 50% { opacity: .9; transform: rotateX(68deg) translateZ(12px) scaleX(1.05); } }
+          @keyframes float-3d { 0%, 100% { transform: translate3d(30px, 0, 52px) rotateY(-4deg) rotateZ(-1deg); } 50% { transform: translate3d(30px, -10px, 66px) rotateY(4deg) rotateZ(1deg); } }
+          @keyframes particle-drift { 0%, 100% { opacity: .35; transform: translateY(8px) scale(.8); } 50% { opacity: 1; transform: translateY(-12px) scale(1.25); } }
 
           @media (max-width: 480px) {
             .screen { border-radius: 0; }
@@ -612,7 +651,7 @@
             font-size: 13px;
           }
 
-          body.theme-old-app-lab #scrLogin > div:nth-of-type(2) {
+          body.theme-old-app-lab #scrLogin > div:nth-of-type(4) {
             margin-top: 40px;
           }
 
@@ -816,7 +855,7 @@
           body.theme-old-app-lab #scrFight #hpBar { height: 22px; border-radius: 12px; background: #596064; }
           body.theme-old-app-lab #scrFight #hpBarFill { background: #00c900; }
 
-          body.theme-old-app-lab #scrUpg > div:first-child {
+          body.theme-old-app-lab #scrUpg > div:nth-child(2) {
             height: 45px;
             min-height: 45px;
             padding: 7px 10px;
@@ -832,7 +871,7 @@
             line-height: 22px;
           }
           body.theme-old-app-lab #scrUpg #lblXP2 { color: #08666b; }
-          body.theme-old-app-lab #scrUpg > div:nth-child(2) { gap: 0 !important; }
+          body.theme-old-app-lab #scrUpg > div:nth-child(3) { gap: 0 !important; }
           body.theme-old-app-lab #scrUpg button {
             height: 38px;
             min-height: 38px;
@@ -857,7 +896,7 @@
           body.theme-old-app-lab #scrBoss #btnBossHit { background: #ff0000 !important; border-radius: 20px; }
           body.theme-old-app-lab #NHRL { justify-content: space-between; }
           body.theme-old-app-lab #NHRL .banner { padding: 12px 9px; font-size: 27px !important; font-weight: 400; text-align: left; }
-          body.theme-old-app-lab #NHRL .banner:nth-child(3) { margin-bottom: 61px; }
+          body.theme-old-app-lab #NHRL .banner:nth-child(4) { margin-bottom: 61px; }
 
           body.theme-old-app-lab #scrDeath { padding: 0 15px; }
           body.theme-old-app-lab #scrDeath .banner { margin-top: 67px; padding: 2px; background: #2b2b3d !important; color: #d2ff9a; font-family: monospace; font-size: 31px; letter-spacing: 0; }
@@ -899,8 +938,8 @@
             text-align: left;
           }
 
-          body.theme-old-app-lab #scrLogin > div:nth-of-type(1),
-          body.theme-old-app-lab #scrSignup > div:nth-of-type(1) {
+          body.theme-old-app-lab #scrLogin > div:nth-of-type(2),
+          body.theme-old-app-lab #scrSignup > div:nth-of-type(2) {
             width: 100%;
           }
 
@@ -924,7 +963,7 @@
             background: #a9d2e1;
           }
 
-          body.theme-old-app-lab #scrLogin > div:nth-of-type(2) {
+          body.theme-old-app-lab #scrLogin > div:nth-of-type(4) {
             margin-top: 27px;
             text-align: center;
           }
@@ -1069,21 +1108,156 @@
             font-size: 16px;
           }
     </style>
+    <style id="modern-app-redesign">
+      body:not(.theme-old-app-lab) {
+        --app-ink: #f5f7ff;
+        --app-muted: #9aa7c4;
+        --app-line: rgba(255,255,255,0.11);
+        --app-panel: #151d35;
+        --app-panel-strong: #1c2745;
+        --app-teal: #62e6cf;
+        --app-coral: #ff786b;
+        --app-yellow: #ffd166;
+        background: #090e1c;
+        color: var(--app-ink);
+        font-family: "Trebuchet MS", "Segoe UI", sans-serif;
+      }
+
+      body:not(.theme-old-app-lab)::before {
+        opacity: .34;
+        background-image: linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px);
+        background-size: 36px 36px;
+        mask-image: linear-gradient(to bottom, black 25%, transparent 90%);
+      }
+
+      body:not(.theme-old-app-lab) .screen {
+        width: min(100%, 430px);
+        min-height: 720px;
+        height: min(820px, calc(100vh - 32px));
+        padding: 28px 22px 20px;
+        gap: 14px;
+        border: 1px solid var(--app-line);
+        border-radius: 28px;
+        background: linear-gradient(180deg, #151d35 0%, #0f172b 100%) !important;
+        box-shadow: 0 28px 80px rgba(0,0,0,.48), inset 0 1px rgba(255,255,255,.06);
+        backdrop-filter: none;
+      }
+
+      body:not(.theme-old-app-lab) .screen::before {
+        top: 18px;
+        left: 22px;
+        color: #7584a5;
+        font-size: 9px;
+        letter-spacing: 2px;
+      }
+
+      body:not(.theme-old-app-lab) .screen::after {
+        top: -130px;
+        right: -120px;
+        width: 270px;
+        height: 270px;
+        border-color: rgba(98,230,207,.14);
+        box-shadow: 0 0 0 24px rgba(98,230,207,.025), 0 0 0 48px rgba(255,120,107,.018);
+      }
+
+      body:not(.theme-old-app-lab) .screen > *:not(.screen-art) { position: relative; z-index: 2; }
+      body:not(.theme-old-app-lab) .screen-art { opacity: .42; }
+      body:not(.theme-old-app-lab) .banner {
+        border: 1px solid var(--app-line);
+        border-radius: 14px;
+        background: var(--app-panel-strong) !important;
+        box-shadow: none;
+        color: var(--app-ink);
+        backdrop-filter: none;
+      }
+
+      body:not(.theme-old-app-lab) input,
+      body:not(.theme-old-app-lab) select {
+        min-height: 50px;
+        border: 1px solid var(--app-line);
+        border-radius: 12px;
+        background: #0d1427 !important;
+        box-shadow: inset 0 1px rgba(255,255,255,.04);
+        color: var(--app-ink);
+      }
+
+      body:not(.theme-old-app-lab) input::placeholder { color: #647291; }
+      body:not(.theme-old-app-lab) input:focus,
+      body:not(.theme-old-app-lab) select:focus { outline: 2px solid rgba(98,230,207,.25); border-color: var(--app-teal); }
+      body:not(.theme-old-app-lab) button { border: 1px solid var(--app-line); border-radius: 12px; box-shadow: none; }
+      body:not(.theme-old-app-lab) button:hover { filter: brightness(1.1); transform: translateY(-1px); }
+      body:not(.theme-old-app-lab) .green-btn { background: var(--app-teal) !important; color: #09211f; }
+      body:not(.theme-old-app-lab) .red-btn { background: var(--app-coral) !important; color: #30100e; }
+      body:not(.theme-old-app-lab) .purple-btn { background: #7277e8 !important; color: #fff; }
+
+      body:not(.theme-old-app-lab) #scrLogin,
+      body:not(.theme-old-app-lab) #scrSignup { justify-content: flex-start; padding-top: 84px; gap: 18px; }
+      body:not(.theme-old-app-lab) #scrLogin .banner,
+      body:not(.theme-old-app-lab) #scrSignup .banner { padding: 18px !important; background: transparent !important; border: 0; font-size: 26px !important; font-weight: 800; letter-spacing: -1px; }
+      body:not(.theme-old-app-lab) #scrLogin .banner::first-line,
+      body:not(.theme-old-app-lab) #scrSignup .banner::first-line { color: var(--app-ink); }
+      body:not(.theme-old-app-lab) #scrLogin label,
+      body:not(.theme-old-app-lab) #scrSignup label { margin: 12px 2px 4px; color: var(--app-muted); font-size: 10px !important; font-weight: 800; letter-spacing: 1.3px; }
+      body:not(.theme-old-app-lab) #scrLogin > div,
+      body:not(.theme-old-app-lab) #scrSignup > div { width: 100%; }
+      body:not(.theme-old-app-lab) #scrLogin > button:last-child { margin-top: auto; color: var(--app-muted); background: transparent !important; }
+      body:not(.theme-old-app-lab) #scrLogin .auth-art,
+      body:not(.theme-old-app-lab) #scrSignup .auth-art { top: 96px; right: 26px; opacity: .65; }
+
+      body:not(.theme-old-app-lab) #scrFight { justify-content: flex-start; gap: 12px; }
+      body:not(.theme-old-app-lab) .app-bar { min-height: 34px; }
+      body:not(.theme-old-app-lab) .app-mark { border: 0; background: var(--app-teal); box-shadow: none; }
+      body:not(.theme-old-app-lab) .app-profile { color: var(--app-muted); }
+      body:not(.theme-old-app-lab) .battle-heading strong { font-size: 24px; letter-spacing: -.7px; }
+      body:not(.theme-old-app-lab) .eyebrow { color: #7887a7; }
+      body:not(.theme-old-app-lab) .enemy-card { padding: 15px; border: 1px solid var(--app-line); border-radius: 16px; background: var(--app-panel); transform: none; }
+      body:not(.theme-old-app-lab) .enemy-card #lblHP { color: var(--app-ink) !important; }
+      body:not(.theme-old-app-lab) .enemy-health-track { background: #0a1020; }
+      body:not(.theme-old-app-lab) #enemyHealthFill { background: var(--app-coral); }
+      body:not(.theme-old-app-lab) .arena-stage { min-height: 220px; border: 1px solid var(--app-line); border-radius: 18px; background: radial-gradient(circle at 50% 42%, rgba(98,230,207,.16), transparent 35%), #0b1327; }
+      body:not(.theme-old-app-lab) .battle-controls { margin-top: 0; }
+      body:not(.theme-old-app-lab) #scrFight #btnHit { min-height: 58px; border-radius: 14px; background: var(--app-teal) !important; box-shadow: 0 10px 24px rgba(98,230,207,.14); }
+      body:not(.theme-old-app-lab) .player-health > span { color: var(--app-muted); }
+      body:not(.theme-old-app-lab) #hpBar { background: #0a1020; border-color: var(--app-line); }
+      body:not(.theme-old-app-lab) #hpBarFill { background: var(--app-teal); }
+      body:not(.theme-old-app-lab) .app-nav { padding: 5px; border: 1px solid var(--app-line); border-radius: 14px; background: #0c1427; }
+      body:not(.theme-old-app-lab) .app-nav button { color: var(--app-muted); }
+      body:not(.theme-old-app-lab) .app-nav button:first-child { background: rgba(98,230,207,.14) !important; color: var(--app-teal); }
+
+      body:not(.theme-old-app-lab) #scrUpg,
+      body:not(.theme-old-app-lab) #scrBoss,
+      body:not(.theme-old-app-lab) #NHRL,
+      body:not(.theme-old-app-lab) #scrDeath { justify-content: flex-start; gap: 16px; }
+      body:not(.theme-old-app-lab) #scrUpg > div:nth-child(3) { margin-top: 34px; gap: 8px !important; }
+      body:not(.theme-old-app-lab) #scrUpg button { min-height: 58px; padding-left: 16px; border-radius: 14px; }
+      body:not(.theme-old-app-lab) #scrUpg #btnPwr { background: rgba(255,120,107,.17) !important; border-color: rgba(255,120,107,.38); color: #ffaaa0; }
+      body:not(.theme-old-app-lab) #scrUpg #btnDOT,
+      body:not(.theme-old-app-lab) #scrUpg #UpgXPOT { background: rgba(98,230,207,.13) !important; border-color: rgba(98,230,207,.3); color: var(--app-teal); }
+      body:not(.theme-old-app-lab) #scrBoss .banner { background: rgba(255,120,107,.12) !important; border-color: rgba(255,120,107,.3); }
+      body:not(.theme-old-app-lab) #scrBoss .slime-img { margin-top: 46px; }
+      body:not(.theme-old-app-lab) #scrBoss button { margin-top: auto; }
+      body:not(.theme-old-app-lab) #NHRL { justify-content: center; text-align: center; }
+      body:not(.theme-old-app-lab) #NHRL .banner { padding: 18px !important; line-height: 1.4; }
+      body:not(.theme-old-app-lab) #scrDeath { justify-content: center; text-align: center; }
+      body:not(.theme-old-app-lab) #scrDeath .banner { padding: 22px !important; background: rgba(255,120,107,.14) !important; border-color: rgba(255,120,107,.35); }
+      body:not(.theme-old-app-lab) #scrDeath button { min-height: 58px; }
+    </style>
 </head>
 <body>
 
     <!-- 1. LOGIN SCREEN -->
     <div id="scrLogin" class="screen active-screen" style="background: #2b2b3d;">
+      <div class="screen-art auth-art"></div>
         <div class="banner" style="background: #0077b6;">Welcome back.<br><span style="font-size: 13px; font-weight: 400; opacity: .72;">Sign in to continue your run.</span></div>
         <div style="width: 100%;">
-          <label style="font-size: 12px;">Runner name</label>
+          <label style="font-size: 12px;">Your name</label>
           <input type="text" id="Username" placeholder="Your name">
           <label style="font-size: 12px;">Passcode</label>
           <input type="password" id="password" placeholder="Your passcode">
         </div>
         <div style="width: 100%;">
           <button id="btnSubmit" class="green-btn" style="border-radius: 20px;">Continue run</button>
-          <button id="btnSignup" class="purple-btn" style="border-radius: 20px;">Create runner</button>
+          <button id="btnSignup" class="purple-btn" style="border-radius: 20px;">Create profile</button>
           <button id="btnPasskeyLogin" class="passkey-btn" type="button">Sign in with passkey</button>
             <p id="ErrorMsg" style="color: #ff6b6b; text-align: center; font-size: 14px; margin: 4px 0;"></p>
         </div>
@@ -1093,9 +1267,10 @@
 
     <!-- 2. SIGNUP SCREEN -->
     <div id="scrSignup" class="screen" style="background: #2b2b3d;">
-        <div class="banner" style="background: #0077b6;">Create your runner<br><span style="font-size: 13px; font-weight: 400; opacity: .72;">Your progress stays on this device.</span></div>
+      <div class="screen-art auth-art"></div>
+        <div class="banner" style="background: #0077b6;">Create your profile<br><span style="font-size: 13px; font-weight: 400; opacity: .72;">Your progress stays on this device.</span></div>
         <div style="width: 100%;">
-            <label style="font-size: 12px;">Runner name</label>
+            <label style="font-size: 12px;">Your name</label>
             <input type="text" id="Username2" placeholder="Choose a name">
             <label style="font-size: 12px;">Passcode</label>
             <input type="password" id="passwordSignup" placeholder="Choose a passcode">
@@ -1108,6 +1283,7 @@
 
     <!-- 3. FIGHT ARENA SCREEN -->
     <div id="scrFight" class="screen">
+      <div class="app-bar"><div class="app-brand"><span class="app-mark">✦</span> SKY RISE</div><div class="app-profile"><span class="profile-dot"></span> ONLINE</div></div>
       <div class="battle-heading">
         <div>
           <span class="eyebrow">CURRENT RUN</span>
@@ -1131,10 +1307,13 @@
         
       <div class="arena-stage">
         <div class="arena-grid"></div>
+        <div class="sky-orb"></div>
+        <div class="skyline"></div>
+        <div class="particle particle-a"></div>
+        <div class="particle particle-b"></div>
+        <div class="particle particle-c"></div>
         <div class="target-ring"></div>
-        <div class="slime-img">
-            <span style="font-size: 12px; color: #000; font-weight: bold;">Slime</span>
-        </div>
+        <div class="slime-img" aria-label="Neon Slime"></div>
         <div class="enemy-caption">NEON SLIME <span>•</span> HOSTILE</div>
         </div>
 
@@ -1149,11 +1328,17 @@
 
         <button id="btnHit" class="green-btn attack-button" style="font-size: 16px; padding: 12px;"><span>Attack slime</span><small>Deal damage</small></button>
 
-        <div class="player-health"><span>RUNNER VITALS</span><div id="hpBar"><div id="hpBarFill"></div></div></div>
+        <div class="player-health"><span>YOUR HEALTH</span><div id="hpBar"><div id="hpBarFill"></div></div></div>
+        <nav class="app-nav" aria-label="Primary navigation">
+          <button id="btnNavFight" type="button">Arena</button>
+          <button id="btnNavLoadout" type="button">Loadout</button>
+          <button id="btnNavBoss" type="button">Boss</button>
+        </nav>
     </div>
 
     <!-- 4. UPGRADES SCREEN -->
     <div id="scrUpg" class="screen" style="background: #006666;">
+      <div class="screen-art loadout-art"></div>
         <div style="display: flex; justify-content: space-between; width: 100%;">
             <button id="btnBack" style="width: auto; padding: 4px 10px; background: #333;">← Back</button>
             <div id="lblXP2" style="font-weight: bold; padding-top: 6px;">XP: 0</div>
@@ -1175,12 +1360,11 @@
 
     <!-- 5. BOSS FIGHT SCREEN -->
     <div id="scrBoss" class="screen" style="background: #4a154b;">
+      <div class="screen-art boss-art"></div>
         <div id="lblBossLvl" class="banner" style="background: #6f42c1;">Boss Level: ?</div>
         <div id="lblBossHP" class="banner" style="background: #6f42c1;">Boss HP: ?</div>
         
-        <div class="slime-img" style="background: #ba55d3;">
-            <span style="font-size: 12px; color: #fff; font-weight: bold;">Boss</span>
-        </div>
+        <div class="slime-img" style="background: #ba55d3;" aria-label="Boss creature"></div>
 
         <div id="lblBossTimer" class="banner" style="background: #333;">Time: 10</div>
         <button id="btnBossHit" class="red-btn" style="font-size: 16px; padding: 12px;">Strike the boss</button>
@@ -1188,6 +1372,7 @@
 
     <!-- 6. LEVEL REQUIREMENT WARNING SCREEN (NHRL) -->
     <div id="NHRL" class="screen" style="background: #0056b3;">
+      <div class="screen-art lock-art"></div>
         <div class="banner" style="background: #003366; font-size: 18px; padding: 20px;">You do not have the required level to start a boss fight</div>
         <div id="lblInfoOutput" class="banner" style="background: transparent; font-size: 16px;">Level Required For Boss Fight</div>
         <div class="banner" style="background: #003366; font-size: 20px;">Returning in 5 seconds</div>
@@ -1195,6 +1380,7 @@
 
     <!-- 7. DEATH SCREEN -->
     <div id="scrDeath" class="screen" style="background: #1e1e2f;">
+      <div class="screen-art death-art"></div>
         <div class="banner" style="background: #b22222; font-size: 24px; padding: 20px;">YOU DIED</div>
         
         <button id="btnOptionA" class="green-btn" style="padding: 15px; font-size: 14px;">Click here or press A to respawn</button>
@@ -1299,7 +1485,7 @@
       async function createPasskey() {
         var username = getText("Username2").trim().toLowerCase();
         if (!username) {
-          setText("ErrorMsg", "Enter your runner name first.");
+          setText("ErrorMsg", "Enter your name first.");
           return;
         }
         try {
@@ -1576,12 +1762,32 @@
         isPaused = false; setScreen("scrFight"); currentScreen = "scrFight"; saveGame();
       });
 
+      onEvent("btnNavFight", "click", function () {
+        isPaused = false; currentScreen = "scrFight"; setScreen("scrFight"); saveGame();
+      });
+      onEvent("btnNavLoadout", "click", function () {
+        isPaused = false; currentScreen = "scrUpg"; setScreen("scrUpg");
+        updateXPLabels(); updateUpgradeLabel(); updateDOTLabel(); updateXPOTUpgradeLabel();
+      });
+      onEvent("btnNavBoss", "click", function () {
+        var required = Math.ceil(lvl / 5) * 5;
+        if (lvl >= required) {
+          isPaused = false; currentScreen = "scrBoss"; setScreen("scrBoss");
+          bossHP = bossBaseHP; bossTimer = bossTime;
+          setText("lblBossHP", "Boss HP: " + bossHP); setText("lblBossLvl", "Boss Lvl: " + bossLvl);
+        } else {
+          currentScreen = "NHRL"; setScreen("NHRL");
+          setTimeout(function () { currentScreen = "scrFight"; setScreen("scrFight"); }, 5000);
+        }
+      });
+
       onEvent("btnHit", "click", function () {
         if (isPaused) return;
         if (!beginPunch("btnHit")) return;
         hp -= pwr; if (hp < 0) hp = 0;
         showDamageFeedback();
         updateEnemyHP();
+        enemyRetaliates();
         if (hp <= 0) { 
           xp += xpGain; playerHP = playerMaxHP; updateHPBar(); 
           maybeLevelUp();
