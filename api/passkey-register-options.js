@@ -15,13 +15,14 @@ module.exports = async function handler(request, response) {
     if (existingUser) return json(response, 409, { error: "That runner already exists." });
 
     const sessionId = getSessionId(request, response);
-    const userId = Buffer.from(cryptoRandomUserId()).toString("base64url");
+    const userIdBytes = cryptoRandomUserId();
+    const userId = Buffer.from(userIdBytes).toString("base64url");
     const options = await generateRegistrationOptions({
       rpName: process.env.PASSKEY_RP_NAME || "Sky Rise",
       rpID: getRpId(request),
       userName: normalizedUsername,
       userDisplayName: normalizedUsername,
-      userID: userId,
+      userID: userIdBytes,
       attestationType: "none",
       authenticatorSelection: {
         residentKey: "required",
