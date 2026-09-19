@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sky Rise PWA</title>
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#096A6A">
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            background: #111; 
+            color: #fff; 
+            margin: 0; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            height: 100vh; 
+        }
+        .screen { 
+            display: none; 
+            width: 320px; 
+            height: 480px; 
+            background: #0d4f54; 
+            padding: 15px; 
+            border-radius: 8px; 
+            box-sizing: border-box; 
+            position: relative; 
+            flex-direction: column; 
+            justify-content: space-between; 
+            align-items: center;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.5);
+        }
+        .active-screen { display: flex; }
+        
+        /* Common UI Elements Styling to match App Lab */
+        input, button, select { 
+            width: 100%; 
+            padding: 10px; 
+            margin: 6px 0; 
+            box-sizing: border-box; 
+            font-weight: bold;
+            border-radius: 4px;
+            border: none;
+        }
+        input { background: #bfe3e8; color: #000; }
+        button { background: #0056b3; color: #fff; cursor: pointer; }
+        button:hover { opacity: 0.9; }
+        
+        .red-btn { background: #cc0000 !important; }
+        .green-btn { background: #00aa00 !important; }
+        .purple-btn { background: #6f42c1 !important; }
+
+        .banner {
+            background: #008080;
+            width: 100%;
+            padding: 12px;
+            text-align: center;
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        #hpBar { width: 100%; height: 22px; background: #555; position: relative; border-radius: 4px; overflow: hidden; }
+        #hpBarFill { height: 100%; width: 100%; background: rgb(0,200,0); transition: width 0.2s; }
+        
+        .slime-img {
+            width: 100px;
+            height: 100px;
+            background: #7ec0ee;
+            border-radius: 50%;
+            margin: 10px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 3px solid #fff;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 1. LOGIN SCREEN -->
+    <div id="scrLogin" class="screen active-screen" style="background: #2b2b3d;">
+        <div class="banner" style="background: #0077b6;">Please enter your name to save your data.</div>
+        <div style="width: 100%;">
+            <label style="font-size: 12px;">Name</label>
+            <input type="text" id="Username" placeholder="Enter name here">
+            <label style="font-size: 12px;">Password</label>
+            <input type="password" id="password" placeholder="Enter password">
+        </div>
+        <div style="width: 100%;">
+            <button id="btnSubmit" class="green-btn" style="border-radius: 20px;">Submit</button>
+            <button id="btnSignup" class="purple-btn" style="border-radius: 20px;">Signup</button>
+            <p id="ErrorMsg" style="color: #ff6b6b; text-align: center; font-size: 14px; margin: 4px 0;"></p>
+        </div>
+        <button class="red-btn" style="width: auto; padding: 6px 16px; font-size: 12px;">Reset</button>
+    </div>
+
+    <!-- 2. SIGNUP SCREEN -->
+    <div id="scrSignup" class="screen" style="background: #2b2b3d;">
+        <div class="banner" style="background: #0077b6;">Create a New Account</div>
+        <div style="width: 100%;">
+            <label style="font-size: 12px;">Choose Username</label>
+            <input type="text" id="Username2" placeholder="Choose username">
+            <label style="font-size: 12px;">Choose Password</label>
+            <input type="password" id="passwordSignup" placeholder="Choose password">
+        </div>
+        <div style="width: 100%;">
+            <button id="btnSubmit2" class="green-btn" style="border-radius: 20px;">Create Account</button>
+        </div>
+    </div>
+
+    <!-- 3. FIGHT ARENA SCREEN -->
+    <div id="scrFight" class="screen">
+        <div style="display: flex; justify-content: space-between; width: 100%;">
+            <div id="lblLvl" class="banner" style="width: 48%; padding: 6px;">Lvl: 1</div>
+            <div id="lblXP" class="banner" style="width: 48%; padding: 6px;">XP: 0</div>
+        </div>
+        
+        <div id="lblHP" class="banner" style="background: #4db6ac; color: #000; font-size: 18px;">Enemy HP: 5</div>
+        
+        <div class="slime-img">
+            <span style="font-size: 12px; color: #000; font-weight: bold;">Slime</span>
+        </div>
+
+        <div style="display: flex; justify-content: space-between; width: 100%; align-items: center;">
+            <button id="btnPause" style="width: 35%; margin: 0; background: #607d8b;">Pause</button>
+            <select id="dropActions" style="width: 62%; margin: 0;">
+                <option>Select an option</option>
+                <option>Fight Boss</option>
+                <option>Upgrades</option>
+            </select>
+        </div>
+
+        <button id="btnHit" class="green-btn" style="font-size: 16px; padding: 12px;">Hit Enemy!</button>
+
+        <div id="hpBar"><div id="hpBarFill"></div></div>
+    </div>
+
+    <!-- 4. UPGRADES SCREEN -->
+    <div id="scrUpg" class="screen" style="background: #006666;">
+        <div style="display: flex; justify-content: space-between; width: 100%;">
+            <button id="btnBack" style="width: auto; padding: 4px 10px; background: #333;">← Back</button>
+            <div id="lblXP2" style="font-weight: bold; padding-top: 6px;">XP: 0</div>
+        </div>
+        
+        <div style="width: 100%; display: flex; flex-direction: column; gap: 8px;">
+            <button id="btnPwr" class="red-btn">Upgrade Power</button>
+            <div id="lblUpg" style="font-size: 12px; text-align: center;">Pwr: 1    Cost: 5 XP</div>
+
+            <button id="btnDOT" class="green-btn">Upgrade Over Time Damage</button>
+            <div id="lblDot" style="font-size: 12px; text-align: center;">DOT: 0/sec    Cost: 10 XP</div>
+
+            <button id="UpgXPOT" class="green-btn">Upgrade XP Over Time</button>
+            <div id="lblXPOT" style="font-size: 12px; text-align: center;">XP/sec: 0    Cost: 10 XP</div>
+        </div>
+
+        <div class="banner" style="background: #004d4d; font-size: 12px;">More upgrades and features coming soon!</div>
+    </div>
+
+    <!-- 5. BOSS FIGHT SCREEN -->
+    <div id="scrBoss" class="screen" style="background: #4a154b;">
+        <div id="lblBossLvl" class="banner" style="background: #6f42c1;">Boss Level: ?</div>
+        <div id="lblBossHP" class="banner" style="background: #6f42c1;">Boss HP: ?</div>
+        
+        <div class="slime-img" style="background: #ba55d3;">
+            <span style="font-size: 12px; color: #fff; font-weight: bold;">Boss</span>
+        </div>
+
+        <div id="lblBossTimer" class="banner" style="background: #333;">Time: 10</div>
+        <button id="btnBossHit" class="red-btn" style="font-size: 16px; padding: 12px;">Attack Boss!</button>
+    </div>
+
+    <!-- 6. LEVEL REQUIREMENT WARNING SCREEN (NHRL) -->
+    <div id="NHRL" class="screen" style="background: #0056b3;">
+        <div class="banner" style="background: #003366; font-size: 18px; padding: 20px;">You do not have the required level to start a boss fight</div>
+        <div id="lblInfoOutput" class="banner" style="background: transparent; font-size: 16px;">Level Required For Boss Fight</div>
+        <div class="banner" style="background: #003366; font-size: 20px;">Returning in 5 seconds</div>
+    </div>
+
+    <!-- 7. DEATH SCREEN -->
+    <div id="scrDeath" class="screen" style="background: #1e1e2f;">
+        <div class="banner" style="background: #b22222; font-size: 24px; padding: 20px;">YOU DIED</div>
+        
+        <button id="btnOptionA" class="green-btn" style="padding: 15px; font-size: 14px;">Click here or press A to respawn</button>
+        <button id="btnOptionB" class="purple-btn" style="padding: 15px; font-size: 14px;">Click here or press B to join as a new user</button>
+        
+        <div id="lblDeathSub" style="font-size: 11px; text-align: center; color: #888;">Press [A] to Respawn or [B] for New User</div>
+    </div>
+
+    <!-- APP LAB COMPATIBILITY LAYER -->
+    <script>
+        function setScreen(screenId) {
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active-screen'));
+            let target = document.getElementById(screenId);
+            if(target) target.classList.add('active-screen');
+        }
+        function getText(id) {
+            let el = document.getElementById(id);
+            return el ? el.value : "";
+        }
+        function setText(id, text) {
+            let el = document.getElementById(id);
+            if(el) el.innerText = text;
+        }
+        function setProperty(id, property, value) {
+            let el = document.getElementById(id);
+            if(!el) return;
+            if(property === "width") el.style.width = value + "px";
+            if(property === "background-color") el.style.backgroundColor = value;
+            if(property === "text-color") el.style.color = value;
+            if(property === "x") el.style.left = value + "px";
+            if(property === "index") el.selectedIndex = value;
+        }
+        function getProperty(id, property) {
+            let el = document.getElementById(id);
+            if(!el) return null;
+            if(property === "index") return el.selectedIndex;
+            if(property === "x") return el.offsetLeft;
+            return el.value;
+        }
+        function showElement(id) { let el = document.getElementById(id); if(el) el.style.display = 'block'; }
+        function hideElement(id) { let el = document.getElementById(id); if(el) el.style.display = 'none'; }
+        function onEvent(id, eventType, callback) {
+            let el = document.getElementById(id);
+            if(el) {
+                el.addEventListener(eventType === 'click' ? 'click' : eventType, callback);
+            }
+        }
+        function getKeyValue(key, callback) {
+            let val = localStorage.getItem(key);
+            callback(val);
+        }
+        function setKeyValue(key, value, callback) {
+            localStorage.setItem(key, value);
+            if(callback) callback();
+        }
+    </script>
+
+    <!-- YOUR GAME LOGIC SCRIPT -->
+    <script>
+      var xp = 0, lvl = 1, pwr = 1, hp = 5, baseHP = 5, upgPrice = 5, dotPwr = 0, dotPrice = 10;
+      var currentScreen = "scrLogin", xpGain = 5, xptPwr = 0, xpotPrice = 10, xpt = 0;
+      var isPaused = false, playerName = "";
+      var playerHP = 9, playerMaxHP = 9;
+      var bossLvl = 1, bossHP = 50, bossBaseHP = 50, bossTime = 10, bossTimer = 0, bossInterval = null;
+
+      setScreen("scrLogin");
+
+      onEvent("btnSignup", "click", function() {
+        setText("ErrorMsg", "");
+        setScreen("scrSignup");
+        currentScreen = "scrSignup";
+      });
+
+      onEvent("btnSubmit2", "click", function() {
+        var user = getText("Username2").toLowerCase();
+        var pass = getText("passwordSignup");
+        if (user === "" || pass === "") return;
+        var accountKey = "account_" + user;
+        getKeyValue(accountKey, function(existingData) {
+          if (!existingData) {
+            setKeyValue(accountKey, JSON.stringify({ password: pass }), function() {
+              playerName = user;
+              setScreen("scrFight");
+              currentScreen = "scrFight";
+              loadGame();
+            });
+          }
+        });
+      });
+
+      onEvent("btnSubmit", "click", function() {
+        var user = getText("Username").toLowerCase();
+        var pass = getText("password");
+        if (user === "") { setText("ErrorMsg", "Please enter your username."); return; }
+        getKeyValue("account_" + user, function(savedData) {
+          if (!savedData) {
+            setText("ErrorMsg", "Account not found.");
+          } else {
+            var accountInfo = JSON.parse(savedData);
+            if (accountInfo.password === pass) {
+              playerName = user;
+              loadGame();
+            } else {
+              setText("ErrorMsg", "Incorrect password!");
+            }
+          }
+        });
+      });
+
+      function saveGame() {
+        if (!playerName) return;
+        var playerData = { xp, lvl, pwr, hp, baseHP, upgPrice, dotPwr, dotPrice, xpGain, xptPwr, xpotPrice, xpt, currentScreen, bossLvl, bossBaseHP, playerHP, playerMaxHP };
+        setKeyValue("saveData_" + playerName, JSON.stringify(playerData));
+      }
+
+      function loadGame() {
+        if (!playerName) return;
+        getKeyValue("saveData_" + playerName, function(loadedStringData) {
+          if (loadedStringData) {
+            var loadedData = JSON.parse(loadedStringData);
+            xp = loadedData.xp; lvl = loadedData.lvl; pwr = loadedData.pwr; hp = loadedData.hp;
+            baseHP = loadedData.baseHP; upgPrice = loadedData.upgPrice; dotPwr = loadedData.dotPwr;
+            dotPrice = loadedData.dotPrice; xpGain = loadedData.xpGain; xptPwr = loadedData.xptPwr;
+            xpotPrice = loadedData.xpotPrice; xpt = loadedData.xpt; currentScreen = loadedData.currentScreen;
+            if (loadedData.bossLvl !== undefined) bossLvl = loadedData.bossLvl;
+            if (loadedData.bossBaseHP !== undefined) bossBaseHP = loadedData.bossBaseHP;
+            if (loadedData.playerHP !== undefined) playerHP = loadedData.playerHP;
+            if (loadedData.playerMaxHP !== undefined) playerMaxHP = loadedData.playerMaxHP;
+            setScreen(currentScreen);
+            updateXPLabels(); updateLevelLabel(); updateEnemyHP(); updateBossRequirementLabel();
+            updateDOTLabel(); updateUpgradeLabel(); updateXPOTUpgradeLabel(); updateHPBar();
+          } else {
+            fullRestart();
+          }
+        });
+      }
+
+      function togglePause() {
+        isPaused = !isPaused;
+        setText("btnPause", isPaused ? "Resume" : "Pause");
+      }
+      onEvent("btnPause", "click", togglePause);
+
+      function updateHPBar() {
+        var percent = playerHP / playerMaxHP;
+        if (percent < 0) percent = 0; if (percent > 1) percent = 1;
+        setProperty("hpBarFill", "width", 300 * percent);
+      }
+
+      function fullRestart() {
+        xp = 0; lvl = 1; pwr = 1; hp = 5; baseHP = 5;
+        upgPrice = 5; dotPwr = 0; dotPrice = 10;
+        xpGain = 5; xptPwr = 0; xpotPrice = 10;
+        bossLvl = 1; bossBaseHP = 50;
+        playerHP = playerMaxHP;
+        updateHPBar();
+        saveGame();
+      }
+
+      function updateXPLabels() {
+        setText("lblXP", "XP: " + xp);
+        if(document.getElementById("lblXP2")) setText("lblXP2", "XP: " + xp);
+      }
+      function updateUpgradeLabel() { setText("lblUpg", "Pwr: " + pwr + "    Cost: " + upgPrice + " XP"); }
+      function updateDOTLabel() { setText("lblDot", "DOT: " + dotPwr + "/sec    Cost: " + dotPrice + " XP"); }
+      function updateXPOTUpgradeLabel() { setText("lblXPOT", "XP/sec: " + xptPwr + "    Cost: " + xpotPrice + " XP"); }
+      function updateLevelLabel() { setText("lblLvl", "Lvl: " + lvl); }
+      function updateEnemyHP() { setText("lblHP", "Enemy HP: " + hp); }
+      function updateBossRequirementLabel() {
+        var required = Math.ceil(lvl / 5) * 5;
+        if (required === lvl) required += 5;
+        setText("lblInfoOutput", "Level Required For Boss Fight: " + required);
+      }
+      function newEnemy() { hp = baseHP; updateEnemyHP(); }
+
+      onEvent("UpgXPOT", "click", function () {
+        if (xp >= xpotPrice) { xp -= xpotPrice; xptPwr++; xpotPrice *= 2; updateXPLabels(); updateXPOTUpgradeLabel(); saveGame(); }
+      });
+      onEvent("btnPwr", "click", function () {
+        if (xp >= upgPrice) { xp -= upgPrice; pwr++; upgPrice *= 2; updateXPLabels(); updateUpgradeLabel(); saveGame(); }
+      });
+      onEvent("btnDOT", "click", function () {
+        if (xp >= dotPrice) { xp -= dotPrice; dotPwr++; dotPrice *= 2; updateXPLabels(); updateDOTLabel(); saveGame(); }
+      });
+      onEvent("btnBack", "click", function () {
+        isPaused = false; setScreen("scrFight"); currentScreen = "scrFight"; saveGame();
+      });
+
+      onEvent("btnHit", "click", function () {
+        if (isPaused) return;
+        hp -= pwr; if (hp < 0) hp = 0;
+        updateEnemyHP();
+        if (hp <= 0) { 
+          xp += xpGain; playerHP = playerMaxHP; updateHPBar(); 
+          if (xp >= lvl * 10) { lvl++; baseHP += 5; updateLevelLabel(); }
+          updateBossRequirementLabel(); newEnemy(); saveGame(); 
+        }
+      });
+
+      onEvent("dropActions", "change", function () {
+        var i = getProperty("dropActions", "index");
+        if (i === 1) {
+          var required = Math.ceil(lvl / 5) * 5;
+          if (lvl >= required) {
+            currentScreen = "scrBoss"; setScreen("scrBoss");
+            bossHP = bossBaseHP; bossTimer = bossTime;
+            setText("lblBossHP", "Boss HP: " + bossHP);
+            setText("lblBossLvl", "Boss Lvl: " + bossLvl);
+          } else {
+            setScreen("NHRL");
+            setTimeout(function () { setScreen("scrFight"); }, 5000);
+          }
+        } else if (i === 2) {
+          setScreen("scrUpg"); currentScreen = "scrUpg";
+          updateXPLabels(); updateUpgradeLabel(); updateDOTLabel(); updateXPOTUpgradeLabel();
+        }
+        setProperty("dropActions", "index", 0);
+      });
+
+      onEvent("btnBossHit", "click", function () {
+        bossHP -= pwr; if (bossHP < 0) bossHP = 0;
+        setText("lblBossHP", "Boss HP: " + bossHP);
+        if (bossHP <= 0) {
+          xp += xpGain * 4; bossLvl++; bossBaseHP += 5;
+          currentScreen = "scrFight"; setScreen("scrFight"); newEnemy(); saveGame();
+        }
+      });
+
+      onEvent("btnOptionA", "click", function () { fullRestart(); setScreen("scrFight"); currentScreen = "scrFight"; newEnemy(); saveGame(); });
+      onEvent("btnOptionB", "click", function () { setScreen("scrLogin"); currentScreen = "scrLogin"; });
+    </script>
+</body>
+</html>
