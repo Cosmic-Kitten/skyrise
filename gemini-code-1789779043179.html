@@ -36,6 +36,108 @@
             box-shadow: 0 8px 16px rgba(0,0,0,0.5);
         }
         .active-screen { display: flex; }
+
+        body.theme-old-app-lab {
+          font-family: Arial, sans-serif;
+          background: #111;
+          color: #fff;
+          margin: 0;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          min-height: 100vh;
+          height: auto;
+          padding: 24px;
+          box-sizing: border-box;
+        }
+
+        body.theme-old-app-lab .screen {
+          display: none;
+          width: 320px;
+          height: 480px;
+          background: #0d4f54;
+          padding: 15px;
+          border-radius: 8px;
+          box-sizing: border-box;
+          position: relative;
+          flex-direction: column;
+          justify-content: space-between;
+          align-items: center;
+          box-shadow: 0 8px 16px rgba(0,0,0,0.5);
+          border: none;
+          overflow: visible;
+        }
+
+        body.theme-old-app-lab .screen::before,
+        body.theme-old-app-lab .screen::after {
+          display: none !important;
+        }
+
+        body.theme-old-app-lab input,
+        body.theme-old-app-lab button,
+        body.theme-old-app-lab select {
+          width: 100%;
+          padding: 10px;
+          margin: 6px 0;
+          box-sizing: border-box;
+          font-weight: bold;
+          border-radius: 4px;
+          border: none;
+          min-height: unset;
+          box-shadow: none;
+        }
+
+        body.theme-old-app-lab input { background: #bfe3e8; color: #000; }
+        body.theme-old-app-lab button { background: #0056b3; color: #fff; cursor: pointer; }
+        body.theme-old-app-lab .red-btn { background: #cc0000 !important; }
+        body.theme-old-app-lab .green-btn { background: #00aa00 !important; }
+        body.theme-old-app-lab .purple-btn { background: #6f42c1 !important; }
+
+        body.theme-old-app-lab .banner {
+          background: #008080;
+          width: 100%;
+          padding: 12px;
+          text-align: center;
+          border-radius: 4px;
+          font-weight: bold;
+          font-size: 16px;
+          border: none;
+          color: #fff;
+        }
+
+        body.theme-old-app-lab #hpBar {
+          width: 100%;
+          height: 22px;
+          background: #555;
+          position: relative;
+          border-radius: 4px;
+          overflow: hidden;
+        }
+
+        body.theme-old-app-lab .slime-img {
+          width: 100px;
+          height: 100px;
+          background: #7ec0ee;
+          border-radius: 50%;
+          margin: 10px auto;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          border: 3px solid #fff;
+          box-shadow: none;
+          animation: none;
+        }
+
+        body.theme-old-app-lab .battle-heading,
+        body.theme-old-app-lab .battle-stats,
+        body.theme-old-app-lab .battle-controls,
+        body.theme-old-app-lab .arena-stage,
+        body.theme-old-app-lab .enemy-card,
+        body.theme-old-app-lab .player-health,
+        body.theme-old-app-lab .enemy-health-track,
+        body.theme-old-app-lab #scrFight .battle-heading {
+          all: revert;
+        }
         
         /* Common UI Elements Styling to match App Lab */
         input, button, select { 
@@ -384,6 +486,587 @@
           @media (max-width: 480px) {
             .screen { border-radius: 0; }
           }
+
+          .theme-old-app-lab .live-dot,
+          .theme-old-app-lab .threat-level,
+          .theme-old-app-lab .eyebrow,
+          .theme-old-app-lab .enemy-caption,
+          .theme-old-app-lab .player-health > span,
+          .theme-old-app-lab .battle-stats .banner,
+          .theme-old-app-lab .enemy-card #lblHP,
+          .theme-old-app-lab #scrFight .battle-heading strong {
+            color: #fff !important;
+          }
+
+          #btnToggleTheme {
+            width: auto;
+            margin-top: 4px;
+            padding: 7px 14px;
+            font-size: 12px;
+            align-self: center;
+          }
+
+          .passkey-btn {
+            background: rgba(255,255,255,0.16) !important;
+            color: var(--white);
+            border: 1px solid rgba(255,255,255,0.28);
+            font-size: 12px;
+          }
+
+          body.theme-old-app-lab .passkey-btn {
+            height: 28px;
+            min-height: 28px;
+            width: 150px;
+            margin: 5px auto;
+            padding: 2px 8px;
+            border: 1px solid #53b4d0;
+            border-radius: 4px;
+            background: #079bcc !important;
+            color: #fff;
+            font-size: 11px;
+          }
+
+          /* App Lab screenshot theme: fixed phone canvas, simple blocks, and no glass effects. */
+          body.theme-old-app-lab {
+            background: #111;
+            padding: 0;
+            align-items: center;
+          }
+
+          body.theme-old-app-lab .screen {
+            width: 320px;
+            height: 480px;
+            min-height: 480px;
+            padding: 0;
+            border: 0;
+            border-radius: 8px;
+            background: #087f7f !important;
+            box-shadow: 0 8px 20px rgba(0,0,0,.48);
+            overflow: hidden;
+            color: #fff;
+            gap: 0;
+          }
+
+          body.theme-old-app-lab .screen.active-screen { display: flex; }
+
+          body.theme-old-app-lab .screen::before,
+          body.theme-old-app-lab .screen::after,
+          body.theme-old-app-lab .arena-grid,
+          body.theme-old-app-lab .target-ring,
+          body.theme-old-app-lab .enemy-caption,
+          body.theme-old-app-lab .eyebrow,
+          body.theme-old-app-lab .live-dot,
+          body.theme-old-app-lab .threat-level {
+            display: none !important;
+          }
+
+          body.theme-old-app-lab #scrLogin,
+          body.theme-old-app-lab #scrSignup,
+          body.theme-old-app-lab #scrDeath {
+            justify-content: flex-start;
+            padding: 0 15px 15px;
+            background: #2b2b3d !important;
+          }
+
+          body.theme-old-app-lab #scrLogin .banner,
+          body.theme-old-app-lab #scrSignup .banner {
+            width: 100%;
+            margin: 61px 0 39px;
+            padding: 9px 8px !important;
+            background: #008dcc !important;
+            border: 0;
+            border-radius: 0;
+            font-size: 20px !important;
+            line-height: 1.02;
+            text-align: center;
+          }
+
+          body.theme-old-app-lab #scrLogin > div,
+          body.theme-old-app-lab #scrSignup > div {
+            width: 100%;
+          }
+
+          body.theme-old-app-lab #scrLogin label,
+          body.theme-old-app-lab #scrSignup label {
+            display: block;
+            margin: 0 0 5px;
+            color: #fff;
+            font-size: 13px !important;
+            font-weight: 400;
+            letter-spacing: 0;
+            text-transform: none;
+          }
+
+          body.theme-old-app-lab #scrLogin input,
+          body.theme-old-app-lab #scrSignup input {
+            width: 100%;
+            height: 36px;
+            min-height: 36px;
+            margin: 0 0 8px;
+            padding: 8px 10px;
+            background: #bfe3e8;
+            border: 0;
+            border-radius: 4px;
+            color: #000;
+            font-size: 13px;
+          }
+
+          body.theme-old-app-lab #scrLogin > div:nth-of-type(2) {
+            margin-top: 40px;
+          }
+
+          body.theme-old-app-lab #scrLogin button,
+          body.theme-old-app-lab #scrSignup button {
+            height: 36px;
+            min-height: 36px;
+            margin: 6px 0;
+            border: 0;
+            border-radius: 22px;
+            font-size: 14px;
+            box-shadow: none;
+          }
+
+          body.theme-old-app-lab #scrLogin #btnSubmit,
+          body.theme-old-app-lab #scrSignup #btnSubmit2 { background: #00bd00 !important; }
+          body.theme-old-app-lab #scrLogin #btnSignup { background: #7143c6 !important; }
+          body.theme-old-app-lab #scrLogin #ErrorMsg { color: #ff5555 !important; }
+          body.theme-old-app-lab #scrLogin > button:last-child {
+            display: block;
+            width: 66px;
+            height: 28px;
+            min-height: 28px;
+            margin: 41px auto 0;
+            padding: 4px 8px;
+            border-radius: 4px;
+            background: #ed1010 !important;
+            color: #fff;
+            font-size: 12px;
+          }
+
+          body.theme-old-app-lab #btnToggleTheme {
+            position: fixed;
+            left: 50%;
+            bottom: 8px;
+            z-index: 20;
+            width: auto;
+            height: 22px;
+            min-height: 22px;
+            margin: 0;
+            padding: 2px 7px;
+            border-radius: 3px;
+            background: rgba(113, 67, 198, .92) !important;
+            font-size: 10px;
+            transform: translateX(-50%);
+          }
+
+          body.theme-old-app-lab #scrFight,
+          body.theme-old-app-lab #scrUpg,
+          body.theme-old-app-lab #scrBoss,
+          body.theme-old-app-lab #NHRL {
+            justify-content: flex-start;
+            background: #087f7f !important;
+          }
+
+          body.theme-old-app-lab #scrFight .battle-heading {
+            width: 100%;
+            height: 61px;
+            min-height: 61px;
+            padding: 0;
+            background: #50575b;
+          }
+
+          body.theme-old-app-lab #scrFight .battle-heading strong {
+            display: none;
+          }
+
+          body.theme-old-app-lab #scrFight .battle-stats {
+            display: flex;
+            width: 100%;
+            height: 28px;
+            min-height: 28px;
+            padding: 0 2px;
+            justify-content: space-between;
+            align-items: center;
+          }
+
+          body.theme-old-app-lab #scrFight .battle-stats .banner {
+            width: 78px !important;
+            height: 20px;
+            min-height: 20px;
+            padding: 1px 9px !important;
+            background: #8fd9e2 !important;
+            border: 1px solid #056a73;
+            border-radius: 14px;
+            color: #08666b !important;
+            font-size: 14px !important;
+            font-weight: 400;
+            text-align: center;
+          }
+
+          body.theme-old-app-lab .enemy-card {
+            width: 100%;
+            height: 116px;
+            padding: 13px 14px 0;
+            border: 0;
+            background: transparent;
+            box-shadow: none;
+          }
+
+          body.theme-old-app-lab .enemy-card-header,
+          body.theme-old-app-lab .enemy-health-track {
+            display: none;
+          }
+
+          body.theme-old-app-lab .enemy-card #lblHP {
+            display: block;
+            width: 220px;
+            height: 68px;
+            margin: 0 auto;
+            padding: 7px 8px !important;
+            background: #91dbe4 !important;
+            border: 1px solid #056a73;
+            border-radius: 34px;
+            color: #08666b !important;
+            font-size: 29px !important;
+            font-weight: 400;
+            text-align: center;
+            text-transform: none;
+            letter-spacing: 0;
+          }
+
+          body.theme-old-app-lab .arena-stage {
+            display: flex;
+            width: 100%;
+            height: 128px;
+            min-height: 128px;
+            border-radius: 0;
+            background: transparent;
+          }
+
+          body.theme-old-app-lab #scrFight .slime-img {
+            width: 100px;
+            height: 100px;
+            margin: 0 auto;
+            border: 3px solid #fff;
+            border-radius: 24px;
+            background: #7ec0ee;
+            box-shadow: none;
+            animation: none;
+          }
+
+          body.theme-old-app-lab .battle-controls {
+            display: flex;
+            width: 100%;
+            height: 52px;
+            min-height: 52px;
+            align-items: center;
+            background: transparent;
+          }
+
+          body.theme-old-app-lab #scrFight #btnPause {
+            width: 52px !important;
+            height: 38px;
+            min-height: 38px;
+            margin: 0;
+            padding: 4px;
+            border-radius: 14px;
+            background: #087477 !important;
+            box-shadow: none;
+            font-size: 11px;
+            font-weight: 400;
+          }
+
+          body.theme-old-app-lab #scrFight #dropActions {
+            width: 250px !important;
+            height: 38px;
+            min-height: 38px;
+            margin: 0 8px;
+            padding: 4px 8px;
+            border: 0;
+            border-radius: 14px;
+            background: #087477;
+            color: #fff;
+            font-size: 11px;
+            font-weight: 400;
+          }
+
+          body.theme-old-app-lab #scrFight #btnHit {
+            width: 100%;
+            height: 38px;
+            min-height: 38px;
+            margin: 0;
+            padding: 4px 10px !important;
+            border-radius: 0;
+            background: #00c900 !important;
+            color: #000;
+            box-shadow: none;
+            font-size: 14px !important;
+          }
+
+          body.theme-old-app-lab #scrFight #btnHit small { display: none; }
+          body.theme-old-app-lab .player-health {
+            width: 100%;
+            height: 28px;
+            min-height: 28px;
+            padding: 5px 12px;
+            background: #596064;
+          }
+          body.theme-old-app-lab .player-health > span { display: none; }
+          body.theme-old-app-lab #scrFight #hpBar { height: 22px; border-radius: 12px; background: #596064; }
+          body.theme-old-app-lab #scrFight #hpBarFill { background: #00c900; }
+
+          body.theme-old-app-lab #scrUpg > div:first-child {
+            height: 45px;
+            min-height: 45px;
+            padding: 7px 10px;
+          }
+          body.theme-old-app-lab #scrUpg #btnBack {
+            width: 28px !important;
+            min-height: 28px;
+            margin: 0;
+            padding: 0;
+            background: transparent !important;
+            color: #009dcc;
+            font-size: 28px;
+            line-height: 22px;
+          }
+          body.theme-old-app-lab #scrUpg #lblXP2 { color: #08666b; }
+          body.theme-old-app-lab #scrUpg > div:nth-child(2) { gap: 0 !important; }
+          body.theme-old-app-lab #scrUpg button {
+            height: 38px;
+            min-height: 38px;
+            margin: 0;
+            border-radius: 20px;
+            box-shadow: none;
+            font-size: 12px;
+          }
+          body.theme-old-app-lab #scrUpg #btnPwr { background: #ff0000 !important; }
+          body.theme-old-app-lab #scrUpg #btnDOT,
+          body.theme-old-app-lab #scrUpg #UpgXPOT { background: #00863f !important; }
+          body.theme-old-app-lab #scrUpg #UpgXPOT { background: #00e600 !important; color: #000; }
+          body.theme-old-app-lab #scrUpg div[id^="lbl"] { height: 18px; color: #08666b !important; font-size: 11px !important; }
+          body.theme-old-app-lab #scrUpg .banner { margin: 27px 6px 0; padding: 9px !important; background: #91dbe4 !important; color: #08666b; font-size: 29px; font-weight: 400; text-align: left; }
+
+          body.theme-old-app-lab #scrBoss .banner,
+          body.theme-old-app-lab #NHRL .banner { background: #8fd9e2 !important; border: 0; border-radius: 0; color: #08666b; }
+          body.theme-old-app-lab #scrBoss #lblBossLvl { margin-top: 9px; border-radius: 20px; }
+          body.theme-old-app-lab #scrBoss #lblBossHP { margin-top: 16px; border-radius: 24px; font-size: 29px; font-weight: 400; }
+          body.theme-old-app-lab #scrBoss .slime-img { width: 100px; height: 100px; margin: 5px auto; background: #c7bfd2 !important; border: 3px solid #fff; box-shadow: none; animation: none; }
+          body.theme-old-app-lab #scrBoss #lblBossTimer { margin-top: 10px; background: #8fd9e2 !important; color: #08666b; }
+          body.theme-old-app-lab #scrBoss #btnBossHit { background: #ff0000 !important; border-radius: 20px; }
+          body.theme-old-app-lab #NHRL { justify-content: space-between; }
+          body.theme-old-app-lab #NHRL .banner { padding: 12px 9px; font-size: 27px !important; font-weight: 400; text-align: left; }
+          body.theme-old-app-lab #NHRL .banner:nth-child(3) { margin-bottom: 61px; }
+
+          body.theme-old-app-lab #scrDeath { padding: 0 15px; }
+          body.theme-old-app-lab #scrDeath .banner { margin-top: 67px; padding: 2px; background: #2b2b3d !important; color: #d2ff9a; font-family: monospace; font-size: 31px; letter-spacing: 0; }
+          body.theme-old-app-lab #scrDeath button { height: 78px; min-height: 78px; margin: 6px 0 18px; border: 2px solid #bf8aff; border-radius: 7px; background: #3d3457 !important; color: #d2ff9a; font-size: 22px; line-height: 1.05; }
+          body.theme-old-app-lab #scrDeath #lblDeathSub { margin-top: 12px; padding: 1px 6px; border-radius: 8px; background: #111; color: #d2ff9a !important; font-size: 9px; }
+
+          /* Match the uploaded App Lab preview: a 252x474 canvas with a fixed footer. */
+          body.theme-old-app-lab {
+            background: #f1f3f6;
+            padding: 0;
+          }
+
+          body.theme-old-app-lab .screen {
+            width: 252px;
+            height: 474px;
+            min-height: 474px;
+            border-radius: 28px;
+            box-shadow: none;
+          }
+
+          body.theme-old-app-lab .screen.active-screen {
+            display: flex;
+          }
+
+          body.theme-old-app-lab #scrLogin,
+          body.theme-old-app-lab #scrSignup {
+            padding: 0 9px 61px;
+          }
+
+          body.theme-old-app-lab #scrLogin .banner,
+          body.theme-old-app-lab #scrSignup .banner {
+            width: 252px;
+            margin: 61px -9px 20px;
+            padding: 5px 9px !important;
+            background: #079bcc !important;
+            color: #fff;
+            font-size: 20px !important;
+            line-height: 1.02;
+            text-align: left;
+          }
+
+          body.theme-old-app-lab #scrLogin > div:nth-of-type(1),
+          body.theme-old-app-lab #scrSignup > div:nth-of-type(1) {
+            width: 100%;
+          }
+
+          body.theme-old-app-lab #scrLogin label,
+          body.theme-old-app-lab #scrSignup label {
+            width: max-content;
+            margin: 0 0 -1px 4px;
+            padding: 2px 10px;
+            background: #079bcc;
+            color: #fff;
+            font-size: 13px !important;
+          }
+
+          body.theme-old-app-lab #scrLogin input,
+          body.theme-old-app-lab #scrSignup input {
+            width: 172px;
+            height: 36px;
+            min-height: 36px;
+            margin: 0 0 8px 4px;
+            border-radius: 4px;
+            background: #a9d2e1;
+          }
+
+          body.theme-old-app-lab #scrLogin > div:nth-of-type(2) {
+            margin-top: 27px;
+            text-align: center;
+          }
+
+          body.theme-old-app-lab #scrLogin button,
+          body.theme-old-app-lab #scrSignup button {
+            height: 33px;
+            min-height: 33px;
+            width: 78px;
+            margin: 5px auto;
+            padding: 3px 8px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 400;
+          }
+
+          body.theme-old-app-lab #scrLogin #btnSubmit,
+          body.theme-old-app-lab #scrSignup #btnSubmit2 {
+            background: #edfaff !important;
+            border: 1px solid #53b4d0;
+            color: #009dcc;
+          }
+
+          body.theme-old-app-lab #scrLogin #btnSignup {
+            width: 74px;
+            height: 21px;
+            min-height: 21px;
+            margin-top: 70px;
+            padding: 0;
+            background: transparent !important;
+            border: 1px solid #53b4d0;
+            color: #009dcc;
+            font-size: 12px;
+          }
+
+          body.theme-old-app-lab #scrLogin #ErrorMsg { color: #ff5555 !important; }
+          body.theme-old-app-lab #scrLogin > button:last-child { display: none; }
+          body.theme-old-app-lab #btnToggleTheme {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            z-index: 31;
+            display: block;
+            width: auto;
+            height: 22px;
+            min-height: 22px;
+            margin: 0;
+            padding: 2px 6px;
+            border-radius: 3px;
+            background: #4030bd !important;
+            color: #fff;
+            font-size: 9px;
+          }
+
+          body.theme-old-app-lab #scrFight,
+          body.theme-old-app-lab #scrUpg,
+          body.theme-old-app-lab #scrBoss,
+          body.theme-old-app-lab #NHRL {
+            padding-bottom: 61px;
+          }
+
+          body.theme-old-app-lab #scrFight .battle-heading {
+            height: 61px;
+            min-height: 61px;
+            background: #50575b;
+          }
+
+          body.theme-old-app-lab #scrFight .battle-stats .banner {
+            width: 80px !important;
+            height: 19px;
+            padding: 0 !important;
+            background: #91dbe4 !important;
+            border: 1px solid #08777c;
+            border-radius: 14px;
+            color: #08666b !important;
+            font-size: 14px !important;
+            font-weight: 400;
+          }
+
+          body.theme-old-app-lab .enemy-card #lblHP {
+            width: 220px;
+            height: 68px;
+            padding: 6px 0 !important;
+            background: #91dbe4 !important;
+            border: 1px solid #08777c;
+            border-radius: 34px;
+            color: #08666b !important;
+            font-size: 29px !important;
+            font-weight: 400;
+          }
+
+          body.theme-old-app-lab #scrFight .slime-img,
+          body.theme-old-app-lab #scrBoss .slime-img {
+            background: url("icon.png") center / cover no-repeat !important;
+            border: 0;
+            border-radius: 24px;
+            font-size: 0;
+          }
+
+          body.theme-old-app-lab #scrFight .slime-img { width: 100px; height: 100px; }
+          body.theme-old-app-lab #scrFight #btnHit { background: #00ce00 !important; }
+
+          body.theme-old-app-lab #scrUpg .banner {
+            margin-top: 24px;
+            background: #91dbe4 !important;
+            color: #08666b;
+            font-size: 29px;
+            font-weight: 400;
+            text-align: left;
+          }
+
+          body.theme-old-app-lab #scrDeath { padding-bottom: 61px; }
+
+          #oldAppLabFooter {
+            display: none;
+          }
+
+          body.theme-old-app-lab #oldAppLabFooter {
+            position: fixed;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 252px;
+            height: 61px;
+            left: 50%;
+            bottom: calc(50% - 237px);
+            transform: translateX(-50%);
+            border-radius: 0 0 28px 28px;
+            background: #50575b;
+            z-index: 30;
+          }
+
+          body.theme-old-app-lab #oldAppLabFooter button {
+            width: 106px;
+            height: 42px;
+            min-height: 42px;
+            margin: 0;
+            padding: 0;
+            border-radius: 3px;
+            background: #4030bd !important;
+            color: #fff;
+            font-size: 16px;
+          }
     </style>
 </head>
 <body>
@@ -400,8 +1083,10 @@
         <div style="width: 100%;">
           <button id="btnSubmit" class="green-btn" style="border-radius: 20px;">Continue run</button>
           <button id="btnSignup" class="purple-btn" style="border-radius: 20px;">Create runner</button>
+          <button id="btnPasskeyLogin" class="passkey-btn" type="button">Sign in with passkey</button>
             <p id="ErrorMsg" style="color: #ff6b6b; text-align: center; font-size: 14px; margin: 4px 0;"></p>
         </div>
+        <button id="btnToggleTheme" class="purple-btn" style="width: auto; padding: 6px 16px; font-size: 12px;">Revert to old version</button>
         <button class="red-btn" style="width: auto; padding: 6px 16px; font-size: 12px;">Reset form</button>
     </div>
 
@@ -416,6 +1101,7 @@
         </div>
         <div style="width: 100%;">
             <button id="btnSubmit2" class="green-btn" style="border-radius: 20px;">Start new run</button>
+          <button id="btnPasskeySignup" class="passkey-btn" type="button">Create a passkey</button>
         </div>
     </div>
 
@@ -516,6 +1202,8 @@
         <div id="lblDeathSub" style="font-size: 11px; text-align: center; color: #888;">Press [A] to Respawn or [B] for New User</div>
     </div>
 
+      <div id="oldAppLabFooter"><button id="btnOldReset" type="button">↻&nbsp; Reset</button></div>
+
     <!-- APP LAB COMPATIBILITY LAYER -->
     <script>
         function setScreen(screenId) {
@@ -573,8 +1261,122 @@
       var playerHP = 9, playerMaxHP = 9;
       var bossLvl = 1, bossHP = 50, bossBaseHP = 50, bossTime = 10, bossTimer = 0, bossInterval = null;
       var punchCooldown = 500, lastPunchAt = 0, enemyDamage = 1;
+      var passiveTicker = null;
+      var oldVersionEnabled = false;
+      var passkeyBrowserPromise = null;
+
+      function getPasskeyBrowser() {
+        if (!window.isSecureContext || !window.PublicKeyCredential) {
+          throw new Error("Passkeys require HTTPS or localhost in a supported browser.");
+        }
+        if (!passkeyBrowserPromise) {
+          passkeyBrowserPromise = import("https://esm.sh/@simplewebauthn/browser@13.2.1");
+        }
+        return passkeyBrowserPromise;
+      }
+
+      async function passkeyRequest(path, body) {
+        var response = await fetch(path, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          credentials: "same-origin",
+          body: JSON.stringify(body || {})
+        });
+        var result = await response.json();
+        if (!response.ok) throw new Error(result.error || "Passkey request failed.");
+        return result;
+      }
+
+      async function createPasskey() {
+        var username = getText("Username2").trim().toLowerCase();
+        if (!username) {
+          setText("ErrorMsg", "Enter your runner name first.");
+          return;
+        }
+        try {
+          var browser = await getPasskeyBrowser();
+          var options = await passkeyRequest("/api/passkey-register-options", { username: username });
+          var credential = await browser.startRegistration({ optionsJSON: options });
+          var result = await passkeyRequest("/api/passkey-register-verify", credential);
+          playerName = result.username;
+          currentScreen = "scrFight";
+          setScreen("scrFight");
+          loadGame();
+        } catch (error) {
+          setText("ErrorMsg", error.message || "Passkey setup failed.");
+        }
+      }
+
+      async function signInWithPasskey() {
+        var username = getText("Username").trim().toLowerCase();
+        if (!username) {
+          setText("ErrorMsg", "Enter your runner name first.");
+          return;
+        }
+        try {
+          var browser = await getPasskeyBrowser();
+          var options = await passkeyRequest("/api/passkey-auth-options", { username: username });
+          var assertion = await browser.startAuthentication({ optionsJSON: options });
+          var result = await passkeyRequest("/api/passkey-auth-verify", assertion);
+          playerName = result.username;
+          loadGame();
+        } catch (error) {
+          setText("ErrorMsg", error.message || "Passkey sign-in failed.");
+        }
+      }
+
+      function applyTheme(forceOldTheme) {
+        oldVersionEnabled = !!forceOldTheme;
+        document.body.classList.toggle("theme-old-app-lab", oldVersionEnabled);
+        var toggleButton = document.getElementById("btnToggleTheme");
+        if (toggleButton) {
+          toggleButton.textContent = oldVersionEnabled ? "Use modern version" : "Revert to old version";
+        }
+      }
+
+      function maybeLevelUp() {
+        var threshold = lvl * 10;
+        while (xp >= threshold) {
+          xp -= threshold;
+          lvl++;
+          baseHP += 5;
+          hp = baseHP;
+          playerMaxHP = Math.max(playerMaxHP, 9 + (lvl - 1) * 2);
+          playerHP = Math.min(playerMaxHP, playerHP + 2);
+          threshold = lvl * 10;
+        }
+        updateXPLabels();
+        updateLevelLabel();
+        updateBossRequirementLabel();
+        updateEnemyHP();
+        updateHPBar();
+      }
+
+      function startPassiveTicker() {
+        if (passiveTicker) clearInterval(passiveTicker);
+        passiveTicker = setInterval(function() {
+          if (isPaused || !playerName) return;
+          if ((currentScreen === "scrFight" || currentScreen === "scrBoss") && hp > 0) {
+            if (dotPwr > 0) {
+              takePlayerDamage(dotPwr);
+            }
+            if (xptPwr > 0) {
+              xp += xptPwr;
+              maybeLevelUp();
+            }
+          }
+        }, 1000);
+      }
+
+      function restoreThemePreference() {
+        applyTheme(false);
+      }
 
       setScreen("scrLogin");
+
+      onEvent("btnToggleTheme", "click", function() {
+        applyTheme(!oldVersionEnabled);
+      });
 
       onEvent("btnSignup", "click", function() {
         setText("ErrorMsg", "");
@@ -617,6 +1419,9 @@
           }
         });
       });
+
+      onEvent("btnPasskeySignup", "click", createPasskey);
+      onEvent("btnPasskeyLogin", "click", signInWithPasskey);
 
       function saveGame() {
         if (!playerName) return;
@@ -773,10 +1578,9 @@
         hp -= pwr; if (hp < 0) hp = 0;
         showDamageFeedback();
         updateEnemyHP();
-        setTimeout(enemyRetaliates, 220);
         if (hp <= 0) { 
           xp += xpGain; playerHP = playerMaxHP; updateHPBar(); 
-          if (xp >= lvl * 10) { lvl++; baseHP += 5; updateLevelLabel(); }
+          maybeLevelUp();
           updateBossRequirementLabel(); newEnemy(); saveGame(); 
         }
       });
@@ -805,15 +1609,26 @@
         if (!beginPunch("btnBossHit")) return;
         bossHP -= pwr; if (bossHP < 0) bossHP = 0;
         setText("lblBossHP", "Boss HP: " + bossHP);
-        setTimeout(bossRetaliates, 220);
         if (bossHP <= 0) {
           xp += xpGain * 4; bossLvl++; bossBaseHP += 5;
+          maybeLevelUp();
           currentScreen = "scrFight"; setScreen("scrFight"); newEnemy(); saveGame();
         }
       });
 
+      window.addEventListener("load", function() {
+        restoreThemePreference();
+        startPassiveTicker();
+      });
+
       onEvent("btnOptionA", "click", function () { fullRestart(); setScreen("scrFight"); currentScreen = "scrFight"; newEnemy(); saveGame(); });
       onEvent("btnOptionB", "click", function () { setScreen("scrLogin"); currentScreen = "scrLogin"; });
+      onEvent("btnOldReset", "click", function () {
+        fullRestart();
+        currentScreen = "scrFight";
+        setScreen("scrFight");
+        newEnemy();
+      });
     </script>
     <script>
       if ("serviceWorker" in navigator) {
