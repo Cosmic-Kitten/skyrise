@@ -37,6 +37,6 @@ module.exports = async function handler(request, response) {
     return json(response, 200, { verified: true, username: user.username });
   } catch (error) {
     console.error(error);
-    return json(response, 401, { error: "Passkey sign-in failed." });
+    return json(response, error.code === "PASSKEY_STORAGE_NOT_CONFIGURED" ? 500 : 401, { error: error.code === "PASSKEY_STORAGE_NOT_CONFIGURED" ? error.message : "Passkey sign-in failed." });
   }
 };

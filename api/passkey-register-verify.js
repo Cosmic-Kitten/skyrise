@@ -38,6 +38,6 @@ module.exports = async function handler(request, response) {
     return json(response, 200, { verified: true, username: pending.username });
   } catch (error) {
     console.error(error);
-    return json(response, 400, { error: "Passkey setup failed." });
+    return json(response, error.code === "PASSKEY_STORAGE_NOT_CONFIGURED" ? 500 : 400, { error: error.code === "PASSKEY_STORAGE_NOT_CONFIGURED" ? error.message : "Passkey setup failed." });
   }
 };

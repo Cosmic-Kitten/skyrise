@@ -15,6 +15,6 @@ module.exports = async function handler(request, response) {
     return json(response, 200, options);
   } catch (error) {
     console.error(error);
-    return json(response, 500, { error: "Could not start passkey sign-in." });
+    return json(response, 500, { error: error.code === "PASSKEY_STORAGE_NOT_CONFIGURED" ? error.message : "Could not start passkey sign-in." });
   }
 };
