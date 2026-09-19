@@ -5,6 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sky Rise PWA</title>
     <link rel="manifest" href="manifest.json">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="apple-touch-icon" href="icon.svg">
     <meta name="theme-color" content="#096A6A">
     <style>
         body { 
@@ -75,66 +79,395 @@
             justify-content: center;
             border: 3px solid #fff;
         }
+
+          /* Sky Rise visual theme */
+          :root {
+            --ink: #f4fbfa;
+            --muted: #a9c8c5;
+            --surface: rgba(12, 35, 45, 0.88);
+            --line: rgba(184, 235, 226, 0.18);
+            --aqua: #67e8d3;
+            --lime: #c4f56a;
+            --coral: #ff806f;
+          }
+
+          * { -webkit-tap-highlight-color: transparent; }
+
+          body {
+            font-family: "Avenir Next", "Segoe UI", sans-serif;
+            background:
+              radial-gradient(circle at 12% 8%, rgba(103, 232, 211, 0.18), transparent 28%),
+              radial-gradient(circle at 88% 90%, rgba(196, 245, 106, 0.13), transparent 30%),
+              #07151d;
+            min-height: 100vh;
+            height: auto;
+            padding: 24px;
+            box-sizing: border-box;
+          }
+
+          .screen {
+            width: min(100%, 420px);
+            min-height: 680px;
+            height: min(780px, calc(100vh - 48px));
+            padding: 56px 24px 24px;
+            border: 1px solid var(--line);
+            border-radius: 28px;
+            background: linear-gradient(145deg, rgba(21, 62, 70, 0.98), rgba(8, 29, 40, 0.98)) !important;
+            box-shadow: 0 24px 70px rgba(0, 0, 0, 0.42), inset 0 1px rgba(255, 255, 255, 0.08);
+            overflow: hidden;
+          }
+
+          .screen::before {
+            content: "SKY RISE";
+            position: absolute;
+            top: 18px;
+            left: 24px;
+            color: rgba(196, 245, 106, 0.72);
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 2px;
+          }
+
+          #scrLogin::before { content: "SKY RISE / ACCESS"; }
+          #scrSignup::before { content: "SKY RISE / NEW RUNNER"; }
+          #scrFight::before { content: "SKY RISE / COMBAT DECK"; }
+          #scrUpg::before { content: "SKY RISE / LOADOUT"; }
+          #scrBoss::before { content: "SKY RISE / BOSS ALERT"; color: var(--coral); }
+          #NHRL::before { content: "SKY RISE / LOCKED"; }
+          #scrDeath::before { content: "SKY RISE / RUN ENDED"; color: var(--coral); }
+
+          .screen::after {
+            content: "";
+            position: absolute;
+            top: -100px;
+            right: -90px;
+            width: 220px;
+            height: 220px;
+            border: 1px solid rgba(103, 232, 211, 0.14);
+            border-radius: 50%;
+            box-shadow: 0 0 0 22px rgba(103, 232, 211, 0.035), 0 0 0 44px rgba(103, 232, 211, 0.025);
+            pointer-events: none;
+          }
+
+          .banner {
+            background: rgba(103, 232, 211, 0.13) !important;
+            border: 1px solid rgba(103, 232, 211, 0.2);
+            border-radius: 14px;
+            color: var(--ink);
+            letter-spacing: 0.2px;
+          }
+
+          input, button, select {
+            min-height: 48px;
+            margin: 8px 0;
+            border: 1px solid transparent;
+            border-radius: 12px;
+            font: inherit;
+            transition: transform 160ms ease, border-color 160ms ease, filter 160ms ease;
+          }
+
+          input, select {
+            background: rgba(229, 251, 247, 0.94);
+            color: #102e35;
+          }
+
+          input:focus, select:focus {
+            outline: 3px solid rgba(103, 232, 211, 0.25);
+            border-color: var(--aqua);
+          }
+
+          button {
+            background: linear-gradient(135deg, #168d86, #0d6d76) !important;
+            box-shadow: 0 8px 18px rgba(0, 0, 0, 0.18);
+          }
+
+          button:hover { filter: brightness(1.12); transform: translateY(-1px); }
+          button:active { transform: translateY(1px); }
+          .green-btn { background: linear-gradient(135deg, #9edc4a, #4d9b58) !important; color: #10291f; }
+          .red-btn { background: linear-gradient(135deg, #ff806f, #d94f58) !important; }
+          .purple-btn { background: linear-gradient(135deg, #8d83ed, #5c55bc) !important; }
+
+          .slime-img {
+            width: 150px;
+            height: 150px;
+            margin: 18px auto;
+            background: radial-gradient(circle at 35% 25%, #b8f5ff, #54a9dc 62%, #2a648e);
+            border: 7px solid rgba(255, 255, 255, 0.8);
+            box-shadow: 0 18px 30px rgba(0, 0, 0, 0.25), inset -12px -16px rgba(38, 76, 140, 0.25);
+            animation: float 3.4s ease-in-out infinite;
+          }
+
+          #scrLogin, #scrSignup { justify-content: center; gap: 22px; }
+          #scrLogin > div, #scrSignup > div { position: relative; z-index: 1; }
+          #scrLogin .banner, #scrSignup .banner {
+            padding: 20px 16px !important;
+            font-size: 20px !important;
+            line-height: 1.15;
+            text-align: left;
+          }
+          #scrLogin .banner::first-line, #scrSignup .banner::first-line { color: var(--lime); }
+          #scrLogin label, #scrSignup label { display: block; margin: 10px 2px 2px; color: var(--muted); }
+          #scrLogin > button:last-child { margin-top: 0; align-self: center; color: var(--muted); background: transparent !important; box-shadow: none; }
+
+          #scrFight { justify-content: flex-start; gap: 16px; }
+          #scrFight > div:first-child { gap: 10px; }
+          #scrFight > div:first-child .banner { flex: 1; width: auto !important; padding: 10px !important; font-size: 13px !important; }
+          #lblHP { margin-top: 4px; padding: 14px !important; text-transform: uppercase; letter-spacing: 1px; font-size: 12px !important; }
+          #scrFight .slime-img { width: 190px; height: 190px; margin: 18px auto 8px; }
+          #scrFight #btnHit { min-height: 62px; margin-top: auto; border-radius: 18px; font-size: 18px !important; letter-spacing: 0.4px; }
+          #scrFight #btnPause { border: 1px solid var(--line); }
+          #scrFight #dropActions { border: 0; }
+
+          #scrUpg, #scrBoss, #NHRL, #scrDeath { justify-content: flex-start; gap: 18px; }
+          #scrUpg > div:nth-child(2) { margin-top: 18px; gap: 6px !important; }
+          #scrUpg button { min-height: 56px; text-align: left; padding-left: 18px; }
+          #scrUpg #btnBack { min-height: 36px; }
+          #scrUpg .banner:last-child { margin-top: auto; }
+          #scrBoss .slime-img { width: 200px; height: 200px; margin: 30px auto 20px; background: radial-gradient(circle at 35% 25%, #ffd0fa, #c25ddd 60%, #6b267e); }
+          #scrBoss button { min-height: 64px; margin-top: auto; font-size: 18px !important; }
+          #NHRL { text-align: center; justify-content: center; }
+          #NHRL .banner { padding: 20px !important; line-height: 1.35; }
+          #scrDeath { justify-content: center; text-align: center; }
+          #scrDeath .banner { padding: 24px !important; }
+          #scrDeath button { min-height: 60px; }
+
+          @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(-1deg); }
+            50% { transform: translateY(-8px) rotate(1deg); }
+          }
+
+          @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+          }
+
+          #hpBar { height: 16px; background: rgba(0, 0, 0, 0.3); border: 1px solid var(--line); }
+          #hpBarFill { background: linear-gradient(90deg, var(--lime), var(--aqua)); }
+
+          @media (max-width: 480px) {
+            body { padding: 0; }
+            .screen { min-height: 100vh; height: auto; border-radius: 0; border: 0; }
+          }
+
+          /* Liquid glass system */
+          :root {
+            --glass: rgba(255, 255, 255, 0.11);
+            --glass-strong: rgba(255, 255, 255, 0.18);
+            --glass-line: rgba(255, 255, 255, 0.28);
+            --white: #f7fbff;
+            --soft-white: rgba(247, 251, 255, 0.68);
+            --blue: #69a8ff;
+            --pink: #ff9ecb;
+          }
+
+          body {
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", sans-serif;
+            background:
+              radial-gradient(ellipse at 0% 0%, rgba(113, 165, 255, 0.7), transparent 42%),
+              radial-gradient(ellipse at 100% 10%, rgba(255, 141, 196, 0.48), transparent 38%),
+              radial-gradient(ellipse at 50% 100%, rgba(99, 239, 218, 0.4), transparent 52%),
+              #17234a;
+            color: var(--white);
+          }
+
+          body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            opacity: 0.22;
+            background-image: linear-gradient(rgba(255,255,255,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.06) 1px, transparent 1px);
+            background-size: 44px 44px;
+            mask-image: linear-gradient(to bottom, black, transparent 78%);
+          }
+
+          .screen {
+            background: linear-gradient(145deg, rgba(255,255,255,0.22), rgba(255,255,255,0.07)) !important;
+            border: 1px solid var(--glass-line);
+            border-top-color: rgba(255,255,255,0.52);
+            border-radius: 36px;
+            box-shadow: 0 30px 90px rgba(0, 0, 0, 0.34), inset 0 1px rgba(255,255,255,0.24), inset 0 -1px rgba(0,0,0,0.08);
+            -webkit-backdrop-filter: blur(34px) saturate(145%);
+            backdrop-filter: blur(34px) saturate(145%);
+          }
+
+          .screen::before { color: rgba(255,255,255,0.72); font-size: 10px; letter-spacing: 2.5px; }
+          .screen::after { border-color: rgba(255,255,255,0.19); box-shadow: 0 0 0 25px rgba(255,255,255,0.035), 0 0 0 50px rgba(255,255,255,0.025); }
+
+          .banner {
+            background: var(--glass) !important;
+            border: 1px solid rgba(255,255,255,0.2);
+            border-top-color: rgba(255,255,255,0.36);
+            box-shadow: inset 0 1px rgba(255,255,255,0.1), 0 10px 26px rgba(0,0,0,0.08);
+            color: var(--white);
+            -webkit-backdrop-filter: blur(22px) saturate(125%);
+            backdrop-filter: blur(22px) saturate(125%);
+          }
+
+          input, select {
+            background: rgba(255,255,255,0.78) !important;
+            border: 1px solid rgba(255,255,255,0.66);
+            box-shadow: inset 0 1px rgba(255,255,255,0.7), 0 8px 24px rgba(12,22,55,0.11);
+            color: #19223f;
+          }
+
+          input::placeholder { color: rgba(25,34,63,0.52); }
+          input:focus, select:focus { outline: 3px solid rgba(255,255,255,0.24); border-color: rgba(255,255,255,0.9); }
+
+          button {
+            background: rgba(255,255,255,0.16) !important;
+            border: 1px solid rgba(255,255,255,0.28);
+            border-top-color: rgba(255,255,255,0.5);
+            box-shadow: inset 0 1px rgba(255,255,255,0.18), 0 10px 24px rgba(10,24,65,0.16);
+            color: var(--white);
+            -webkit-backdrop-filter: blur(18px);
+            backdrop-filter: blur(18px);
+          }
+
+          button:hover { filter: brightness(1.15); transform: translateY(-2px); }
+          button:active { transform: scale(0.98); }
+          .green-btn { background: linear-gradient(135deg, rgba(155,255,225,0.78), rgba(71,196,213,0.52)) !important; color: #073b4a; }
+          .red-btn { background: linear-gradient(135deg, rgba(255,173,205,0.72), rgba(255,107,136,0.55)) !important; }
+          .purple-btn { background: linear-gradient(135deg, rgba(196,183,255,0.74), rgba(131,126,236,0.5)) !important; }
+
+          #scrLogin, #scrSignup { justify-content: center; }
+          .passkey-btn { background: rgba(255,255,255,0.28) !important; color: var(--white); }
+          .passkey-btn::before { content: "◈"; margin-right: 8px; }
+          #scrLogin .banner, #scrSignup .banner { background: rgba(255,255,255,0.13) !important; font-weight: 600; letter-spacing: -0.4px; }
+          #scrLogin .banner::first-line, #scrSignup .banner::first-line { color: var(--white); }
+          #scrLogin label, #scrSignup label { color: var(--soft-white); font-size: 11px !important; font-weight: 600; letter-spacing: 0.2px; text-transform: uppercase; }
+          #ErrorMsg { color: #ffd2e1 !important; }
+          #scrLogin > button:last-child { color: var(--soft-white); }
+
+          #scrFight #btnHit { background: linear-gradient(135deg, rgba(181,255,180,0.82), rgba(70,211,177,0.62)) !important; color: #073a41; box-shadow: 0 14px 34px rgba(84, 236, 195, 0.2), inset 0 1px rgba(255,255,255,0.6); }
+          #scrFight .slime-img, #scrBoss .slime-img { border-color: rgba(255,255,255,0.72); box-shadow: 0 22px 42px rgba(0,0,0,0.24), inset -12px -16px rgba(38,76,140,0.2), 0 0 48px rgba(109,198,255,0.22); }
+          #scrUpg button { text-align: left; }
+          #scrUpg #btnPwr { background: linear-gradient(135deg, rgba(255,173,205,0.7), rgba(255,107,136,0.44)) !important; }
+          #scrUpg #btnDOT, #scrUpg #UpgXPOT { background: linear-gradient(135deg, rgba(155,255,225,0.66), rgba(71,196,213,0.4)) !important; }
+          #scrUpg div[id^="lbl"], #scrDeath #lblDeathSub { color: var(--soft-white) !important; }
+          #scrBoss .banner { background: rgba(255,170,222,0.14) !important; }
+          #scrBoss .slime-img { box-shadow: 0 22px 42px rgba(0,0,0,0.24), 0 0 54px rgba(255,129,213,0.25); }
+
+          #scrFight { gap: 12px; }
+          #scrFight > .battle-heading { display: flex; align-items: center; justify-content: space-between; width: 100%; }
+          .battle-heading strong { display: block; margin-top: 4px; font-size: 22px; letter-spacing: -0.8px; }
+          .eyebrow { color: var(--soft-white); font-size: 9px; font-weight: 700; letter-spacing: 1.7px; }
+          .live-dot, .threat-level { color: #b6ffe8; font-size: 9px; font-weight: 800; letter-spacing: 1px; }
+          .live-dot::before { content: ""; display: inline-block; width: 6px; height: 6px; margin-right: 5px; border-radius: 50%; background: #8dffc9; box-shadow: 0 0 10px #8dffc9; }
+          #scrFight .battle-stats { gap: 10px; }
+          #scrFight .battle-stats .banner { flex: 1; width: auto !important; padding: 11px !important; font-size: 12px !important; text-align: left; }
+          .enemy-card { width: 100%; padding: 14px; box-sizing: border-box; border: 1px solid rgba(255,255,255,0.19); border-radius: 20px; background: rgba(16, 28, 71, 0.2); box-shadow: inset 0 1px rgba(255,255,255,0.12); }
+          .enemy-card-header { display: flex; justify-content: space-between; margin-bottom: 9px; }
+          .enemy-card #lblHP { margin: 0; padding: 0 !important; border: 0; background: transparent !important; box-shadow: none; text-align: left; font-size: 12px !important; letter-spacing: 1.2px; }
+          .enemy-health-track { height: 6px; margin-top: 12px; overflow: hidden; border-radius: 99px; background: rgba(0,0,0,0.22); }
+          #enemyHealthFill { width: 100%; height: 100%; border-radius: inherit; background: linear-gradient(90deg, #ff9ecb, #ffcf9c); transition: width 220ms ease; }
+          .arena-stage { position: relative; display: flex; flex: 1; width: 100%; min-height: 190px; align-items: center; justify-content: center; overflow: hidden; border-radius: 24px; background: radial-gradient(circle at 50% 55%, rgba(108, 216, 255, 0.2), transparent 32%), linear-gradient(160deg, rgba(255,255,255,0.08), rgba(13,23,59,0.18)); }
+          .arena-grid { position: absolute; inset: 0; opacity: 0.3; background-image: linear-gradient(rgba(164,235,255,0.16) 1px, transparent 1px), linear-gradient(90deg, rgba(164,235,255,0.16) 1px, transparent 1px); background-size: 28px 28px; transform: perspective(180px) rotateX(58deg) scale(1.6); transform-origin: center bottom; }
+          .target-ring { position: absolute; width: 190px; height: 54px; bottom: 25px; border: 1px solid rgba(131, 232, 255, 0.38); border-radius: 50%; box-shadow: 0 0 26px rgba(102, 215, 255, 0.24); animation: ring-pulse 2.4s ease-in-out infinite; }
+          #scrFight .slime-img { position: relative; z-index: 1; margin: 0; }
+          .enemy-caption { position: absolute; z-index: 2; bottom: 10px; color: rgba(255,255,255,0.62); font-size: 9px; font-weight: 800; letter-spacing: 1.7px; }
+          .enemy-caption span { color: #8dffc9; margin: 0 4px; }
+          .battle-controls { margin-top: 2px; }
+          .attack-button { display: flex; align-items: center; justify-content: space-between; padding: 13px 18px !important; text-align: left; }
+          .attack-button span { font-size: 17px; font-weight: 800; }
+          .attack-button small { color: rgba(7,59,74,0.7); font-size: 10px; font-weight: 700; text-transform: uppercase; }
+          .attack-button:disabled { cursor: wait; filter: saturate(0.45); opacity: 0.72; transform: none; }
+          .player-hit { animation: player-hit 360ms ease-out; }
+          .incoming-damage { color: #ffd1df; text-shadow: 0 2px 14px rgba(255,105,155,0.9); }
+          .player-health { width: 100%; }
+          .player-health > span { display: block; margin-bottom: 6px; color: var(--soft-white); font-size: 9px; font-weight: 700; letter-spacing: 1.5px; }
+          #scrFight #hpBar { width: 100%; height: 7px; }
+          .hit-flash { animation: hit-flash 360ms ease-out; }
+          .damage-pop { position: absolute; z-index: 3; top: 42%; left: 50%; color: #fff; font-size: 25px; font-weight: 900; text-shadow: 0 2px 14px rgba(255,105,155,0.9); pointer-events: none; animation: damage-pop 520ms ease-out forwards; }
+          @keyframes hit-flash { 0% { transform: scale(1) rotate(0); filter: brightness(1); } 35% { transform: scale(0.92) rotate(-5deg); filter: brightness(1.7); } 100% { transform: scale(1) rotate(0); filter: brightness(1); } }
+          @keyframes player-hit { 0%, 100% { transform: translateX(0); filter: brightness(1); } 25% { transform: translateX(-7px); filter: brightness(1.6); } 55% { transform: translateX(7px); } }
+          @keyframes damage-pop { 0% { opacity: 0; transform: translate(-50%, 10px) scale(.7); } 20% { opacity: 1; } 100% { opacity: 0; transform: translate(-50%, -45px) scale(1.1); } }
+          @keyframes ring-pulse { 0%, 100% { opacity: .45; transform: scaleX(.9); } 50% { opacity: .9; transform: scaleX(1.05); } }
+
+          @media (max-width: 480px) {
+            .screen { border-radius: 0; }
+          }
     </style>
 </head>
 <body>
 
     <!-- 1. LOGIN SCREEN -->
     <div id="scrLogin" class="screen active-screen" style="background: #2b2b3d;">
-        <div class="banner" style="background: #0077b6;">Please enter your name to save your data.</div>
+        <div class="banner" style="background: #0077b6;">Welcome back.<br><span style="font-size: 13px; font-weight: 400; opacity: .72;">Sign in to continue your run.</span></div>
         <div style="width: 100%;">
-            <label style="font-size: 12px;">Name</label>
-            <input type="text" id="Username" placeholder="Enter name here">
-            <label style="font-size: 12px;">Password</label>
-            <input type="password" id="password" placeholder="Enter password">
+          <label style="font-size: 12px;">Runner name</label>
+          <input type="text" id="Username" placeholder="Your name">
+          <label style="font-size: 12px;">Passcode</label>
+          <input type="password" id="password" placeholder="Your passcode">
         </div>
         <div style="width: 100%;">
-            <button id="btnSubmit" class="green-btn" style="border-radius: 20px;">Submit</button>
-            <button id="btnSignup" class="purple-btn" style="border-radius: 20px;">Signup</button>
+          <button id="btnSubmit" class="green-btn" style="border-radius: 20px;">Continue run</button>
+          <button id="btnSignup" class="purple-btn" style="border-radius: 20px;">Create runner</button>
+            <button id="btnPasskey" class="passkey-btn" type="button">Use passkey</button>
             <p id="ErrorMsg" style="color: #ff6b6b; text-align: center; font-size: 14px; margin: 4px 0;"></p>
         </div>
-        <button class="red-btn" style="width: auto; padding: 6px 16px; font-size: 12px;">Reset</button>
+        <button class="red-btn" style="width: auto; padding: 6px 16px; font-size: 12px;">Reset form</button>
     </div>
 
     <!-- 2. SIGNUP SCREEN -->
     <div id="scrSignup" class="screen" style="background: #2b2b3d;">
-        <div class="banner" style="background: #0077b6;">Create a New Account</div>
+        <div class="banner" style="background: #0077b6;">Create your runner<br><span style="font-size: 13px; font-weight: 400; opacity: .72;">Your progress stays on this device.</span></div>
         <div style="width: 100%;">
-            <label style="font-size: 12px;">Choose Username</label>
-            <input type="text" id="Username2" placeholder="Choose username">
-            <label style="font-size: 12px;">Choose Password</label>
-            <input type="password" id="passwordSignup" placeholder="Choose password">
+            <label style="font-size: 12px;">Runner name</label>
+            <input type="text" id="Username2" placeholder="Choose a name">
+            <label style="font-size: 12px;">Passcode</label>
+            <input type="password" id="passwordSignup" placeholder="Choose a passcode">
         </div>
         <div style="width: 100%;">
-            <button id="btnSubmit2" class="green-btn" style="border-radius: 20px;">Create Account</button>
+            <button id="btnSubmit2" class="green-btn" style="border-radius: 20px;">Start new run</button>
+            <button id="btnPasskeySignup" class="passkey-btn" type="button">Create with passkey</button>
+            <p id="SignupMsg" style="color: #ffd2e1; text-align: center; font-size: 14px; margin: 4px 0;"></p>
         </div>
     </div>
 
     <!-- 3. FIGHT ARENA SCREEN -->
     <div id="scrFight" class="screen">
-        <div style="display: flex; justify-content: space-between; width: 100%;">
-            <div id="lblLvl" class="banner" style="width: 48%; padding: 6px;">Lvl: 1</div>
-            <div id="lblXP" class="banner" style="width: 48%; padding: 6px;">XP: 0</div>
+      <div class="battle-heading">
+        <div>
+          <span class="eyebrow">CURRENT RUN</span>
+          <strong>Slime sector</strong>
+        </div>
+        <span class="live-dot">LIVE</span>
+      </div>
+      <div class="battle-stats" style="display: flex; justify-content: space-between; width: 100%;">
+            <div id="lblLvl" class="banner" style="width: 48%; padding: 6px;">LEVEL 1</div>
+            <div id="lblXP" class="banner" style="width: 48%; padding: 6px;">0 XP</div>
         </div>
         
-        <div id="lblHP" class="banner" style="background: #4db6ac; color: #000; font-size: 18px;">Enemy HP: 5</div>
+      <div class="enemy-card">
+        <div class="enemy-card-header">
+          <span class="eyebrow">TARGET</span>
+          <span class="threat-level">THREAT 01</span>
+        </div>
+        <div id="lblHP" class="banner" style="background: #4db6ac; color: #000; font-size: 18px;">ENEMY HP: 5</div>
+        <div class="enemy-health-track"><div id="enemyHealthFill"></div></div>
+      </div>
         
+      <div class="arena-stage">
+        <div class="arena-grid"></div>
+        <div class="target-ring"></div>
         <div class="slime-img">
             <span style="font-size: 12px; color: #000; font-weight: bold;">Slime</span>
         </div>
+        <div class="enemy-caption">NEON SLIME <span>•</span> HOSTILE</div>
+        </div>
 
-        <div style="display: flex; justify-content: space-between; width: 100%; align-items: center;">
+      <div class="battle-controls" style="display: flex; justify-content: space-between; width: 100%; align-items: center;">
             <button id="btnPause" style="width: 35%; margin: 0; background: #607d8b;">Pause</button>
             <select id="dropActions" style="width: 62%; margin: 0;">
-                <option>Select an option</option>
-                <option>Fight Boss</option>
-                <option>Upgrades</option>
+              <option>Open menu</option>
+              <option>Boss fight</option>
+              <option>Upgrades</option>
             </select>
         </div>
 
-        <button id="btnHit" class="green-btn" style="font-size: 16px; padding: 12px;">Hit Enemy!</button>
+        <button id="btnHit" class="green-btn attack-button" style="font-size: 16px; padding: 12px;"><span>Attack slime</span><small>Deal damage</small></button>
 
-        <div id="hpBar"><div id="hpBarFill"></div></div>
+        <div class="player-health"><span>RUNNER VITALS</span><div id="hpBar"><div id="hpBarFill"></div></div></div>
     </div>
 
     <!-- 4. UPGRADES SCREEN -->
@@ -145,17 +478,17 @@
         </div>
         
         <div style="width: 100%; display: flex; flex-direction: column; gap: 8px;">
-            <button id="btnPwr" class="red-btn">Upgrade Power</button>
+            <button id="btnPwr" class="red-btn">Increase power</button>
             <div id="lblUpg" style="font-size: 12px; text-align: center;">Pwr: 1    Cost: 5 XP</div>
 
-            <button id="btnDOT" class="green-btn">Upgrade Over Time Damage</button>
+            <button id="btnDOT" class="green-btn">Add damage over time</button>
             <div id="lblDot" style="font-size: 12px; text-align: center;">DOT: 0/sec    Cost: 10 XP</div>
 
-            <button id="UpgXPOT" class="green-btn">Upgrade XP Over Time</button>
+            <button id="UpgXPOT" class="green-btn">Add XP over time</button>
             <div id="lblXPOT" style="font-size: 12px; text-align: center;">XP/sec: 0    Cost: 10 XP</div>
         </div>
 
-        <div class="banner" style="background: #004d4d; font-size: 12px;">More upgrades and features coming soon!</div>
+        <div class="banner" style="background: #004d4d; font-size: 12px;">Your loadout, tuned for the next climb.</div>
     </div>
 
     <!-- 5. BOSS FIGHT SCREEN -->
@@ -168,7 +501,7 @@
         </div>
 
         <div id="lblBossTimer" class="banner" style="background: #333;">Time: 10</div>
-        <button id="btnBossHit" class="red-btn" style="font-size: 16px; padding: 12px;">Attack Boss!</button>
+        <button id="btnBossHit" class="red-btn" style="font-size: 16px; padding: 12px;">Strike the boss</button>
     </div>
 
     <!-- 6. LEVEL REQUIREMENT WARNING SCREEN (NHRL) -->
@@ -244,8 +577,97 @@
       var isPaused = false, playerName = "";
       var playerHP = 9, playerMaxHP = 9;
       var bossLvl = 1, bossHP = 50, bossBaseHP = 50, bossTime = 10, bossTimer = 0, bossInterval = null;
+      var punchCooldown = 500, lastPunchAt = 0, enemyDamage = 1;
 
       setScreen("scrLogin");
+
+      var PASSKEYS_KEY = "skyRisePasskeys";
+
+      function bytesToBase64Url(bytes) {
+        var binary = "";
+        for (var i = 0; i < bytes.length; i++) binary += String.fromCharCode(bytes[i]);
+        return btoa(binary).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
+      }
+
+      function base64UrlToBytes(value) {
+        var padded = value.replace(/-/g, "+").replace(/_/g, "/");
+        while (padded.length % 4) padded += "=";
+        var binary = atob(padded), bytes = new Uint8Array(binary.length);
+        for (var i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
+        return bytes;
+      }
+
+      function getPasskeys() {
+        try { return JSON.parse(localStorage.getItem(PASSKEYS_KEY) || "[]"); }
+        catch (error) { return []; }
+      }
+
+      function setPasskeys(passkeys) {
+        localStorage.setItem(PASSKEYS_KEY, JSON.stringify(passkeys));
+      }
+
+      function passkeyError(error, targetId) {
+        var message = error && error.name === "NotAllowedError"
+          ? "Passkey prompt cancelled."
+          : "Passkeys need HTTPS or localhost and a supported browser.";
+        setText(targetId, message);
+      }
+
+      function createPasskey() {
+        var user = getText("Username2").trim().toLowerCase();
+        if (!user) { setText("SignupMsg", "Enter a runner name first."); return; }
+        if (!window.PublicKeyCredential || !window.isSecureContext) {
+          setText("SignupMsg", "Passkeys require HTTPS or localhost."); return;
+        }
+
+        var challenge = crypto.getRandomValues(new Uint8Array(32));
+        var userId = crypto.getRandomValues(new Uint8Array(16));
+        navigator.credentials.create({ publicKey: {
+          challenge: challenge,
+          rp: { name: "Sky Rise", id: location.hostname },
+          user: { id: userId, name: user, displayName: user },
+          pubKeyCredParams: [{ type: "public-key", alg: -7 }, { type: "public-key", alg: -257 }],
+          authenticatorSelection: { residentKey: "required", userVerification: "required" },
+          timeout: 60000,
+          attestation: "none"
+        }}).then(function(credential) {
+          var passkeys = getPasskeys().filter(function(item) { return item.username !== user; });
+          passkeys.push({ username: user, credentialId: bytesToBase64Url(new Uint8Array(credential.rawId)) });
+          setPasskeys(passkeys);
+          playerName = user;
+          loadGame();
+          setScreen("scrFight");
+          currentScreen = "scrFight";
+        }).catch(function(error) { passkeyError(error, "SignupMsg"); });
+      }
+
+      function signInWithPasskey() {
+        var user = getText("Username").trim().toLowerCase();
+        var passkeys = getPasskeys().filter(function(item) { return !user || item.username === user; });
+        if (!passkeys.length) { setText("ErrorMsg", "No passkey found for this runner."); return; }
+        if (!window.PublicKeyCredential || !window.isSecureContext) {
+          setText("ErrorMsg", "Passkeys require HTTPS or localhost."); return;
+        }
+
+        navigator.credentials.get({ publicKey: {
+          challenge: crypto.getRandomValues(new Uint8Array(32)),
+          rpId: location.hostname,
+          allowCredentials: passkeys.map(function(item) {
+            return { type: "public-key", id: base64UrlToBytes(item.credentialId) };
+          }),
+          userVerification: "required",
+          timeout: 60000
+        }}).then(function(assertion) {
+          var credentialId = bytesToBase64Url(new Uint8Array(assertion.rawId));
+          var match = passkeys.find(function(item) { return item.credentialId === credentialId; });
+          if (!match) { setText("ErrorMsg", "That passkey is not linked to this app."); return; }
+          playerName = match.username;
+          loadGame();
+        }).catch(function(error) { passkeyError(error, "ErrorMsg"); });
+      }
+
+      onEvent("btnPasskey", "click", signInWithPasskey);
+      onEvent("btnPasskeySignup", "click", createPasskey);
 
       onEvent("btnSignup", "click", function() {
         setText("ErrorMsg", "");
@@ -326,7 +748,59 @@
       function updateHPBar() {
         var percent = playerHP / playerMaxHP;
         if (percent < 0) percent = 0; if (percent > 1) percent = 1;
-        setProperty("hpBarFill", "width", 300 * percent);
+        var hpFill = document.getElementById("hpBarFill");
+        if (hpFill) hpFill.style.width = (100 * percent) + "%";
+      }
+
+      function takePlayerDamage(amount) {
+        playerHP = Math.max(0, playerHP - amount);
+        updateHPBar();
+        var stage = document.querySelector("#scrFight .arena-stage");
+        var vitals = document.querySelector("#scrFight .player-health");
+        if (vitals) {
+          vitals.classList.remove("player-hit");
+          void vitals.offsetWidth;
+          vitals.classList.add("player-hit");
+        }
+        if (stage) {
+          var damage = document.createElement("span");
+          damage.className = "damage-pop incoming-damage";
+          damage.textContent = "-" + amount;
+          damage.style.top = "68%";
+          stage.appendChild(damage);
+          setTimeout(function() { damage.remove(); }, 600);
+        }
+        if (playerHP <= 0) {
+          currentScreen = "scrDeath";
+          setScreen("scrDeath");
+        }
+        saveGame();
+      }
+
+      function beginPunch(buttonId) {
+        var now = Date.now();
+        if (now - lastPunchAt < punchCooldown) return false;
+        lastPunchAt = now;
+        var button = document.getElementById(buttonId);
+        if (button) {
+          button.disabled = true;
+          setTimeout(function() {
+            button.disabled = false;
+          }, punchCooldown);
+        }
+        return true;
+      }
+
+      function enemyRetaliates() {
+        if (hp > 0 && currentScreen === "scrFight" && !isPaused) {
+          takePlayerDamage(enemyDamage);
+        }
+      }
+
+      function bossRetaliates() {
+        if (bossHP > 0 && currentScreen === "scrBoss" && !isPaused) {
+          takePlayerDamage(enemyDamage + 1);
+        }
       }
 
       function fullRestart() {
@@ -347,7 +821,25 @@
       function updateDOTLabel() { setText("lblDot", "DOT: " + dotPwr + "/sec    Cost: " + dotPrice + " XP"); }
       function updateXPOTUpgradeLabel() { setText("lblXPOT", "XP/sec: " + xptPwr + "    Cost: " + xpotPrice + " XP"); }
       function updateLevelLabel() { setText("lblLvl", "Lvl: " + lvl); }
-      function updateEnemyHP() { setText("lblHP", "Enemy HP: " + hp); }
+      function updateEnemyHP() {
+        setText("lblHP", "ENEMY HP: " + hp);
+        var healthFill = document.getElementById("enemyHealthFill");
+        if (healthFill) healthFill.style.width = Math.max(0, Math.min(100, (hp / baseHP) * 100)) + "%";
+      }
+
+      function showDamageFeedback() {
+        var slime = document.querySelector("#scrFight .slime-img");
+        var arena = document.querySelector("#scrFight .arena-stage");
+        if (!slime || !arena) return;
+        slime.classList.remove("hit-flash");
+        void slime.offsetWidth;
+        slime.classList.add("hit-flash");
+        var damage = document.createElement("span");
+        damage.className = "damage-pop";
+        damage.textContent = "-" + pwr;
+        arena.appendChild(damage);
+        setTimeout(function() { damage.remove(); }, 600);
+      }
       function updateBossRequirementLabel() {
         var required = Math.ceil(lvl / 5) * 5;
         if (required === lvl) required += 5;
@@ -370,8 +862,11 @@
 
       onEvent("btnHit", "click", function () {
         if (isPaused) return;
+        if (!beginPunch("btnHit")) return;
         hp -= pwr; if (hp < 0) hp = 0;
+        showDamageFeedback();
         updateEnemyHP();
+        setTimeout(enemyRetaliates, 220);
         if (hp <= 0) { 
           xp += xpGain; playerHP = playerMaxHP; updateHPBar(); 
           if (xp >= lvl * 10) { lvl++; baseHP += 5; updateLevelLabel(); }
@@ -400,8 +895,10 @@
       });
 
       onEvent("btnBossHit", "click", function () {
+        if (!beginPunch("btnBossHit")) return;
         bossHP -= pwr; if (bossHP < 0) bossHP = 0;
         setText("lblBossHP", "Boss HP: " + bossHP);
+        setTimeout(bossRetaliates, 220);
         if (bossHP <= 0) {
           xp += xpGain * 4; bossLvl++; bossBaseHP += 5;
           currentScreen = "scrFight"; setScreen("scrFight"); newEnemy(); saveGame();
@@ -410,6 +907,17 @@
 
       onEvent("btnOptionA", "click", function () { fullRestart(); setScreen("scrFight"); currentScreen = "scrFight"; newEnemy(); saveGame(); });
       onEvent("btnOptionB", "click", function () { setScreen("scrLogin"); currentScreen = "scrLogin"; });
+    </script>
+    <script>
+      if ("serviceWorker" in navigator) {
+        window.addEventListener("load", function () {
+          navigator.serviceWorker.register("sw.js", { updateViaCache: "none" }).then(function () {
+            return navigator.serviceWorker.getRegistration();
+          }).then(function (registration) {
+            if (registration) return registration.update();
+          }).catch(function () {});
+        });
+      }
     </script>
 </body>
 </html>
