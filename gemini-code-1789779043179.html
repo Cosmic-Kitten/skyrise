@@ -10,7 +10,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <link rel="apple-touch-icon" href="icon.svg">
     <meta name="theme-color" content="#096A6A">
-    <script src="https://unpkg.com/@simplewebauthn/browser@13.2.1/dist/bundle/index.umd.min.js" defer></script>
+    <script src="https://unpkg.com/@simplewebauthn/browser@13.3.0/dist/bundle/index.umd.min.js" defer></script>
     <style>
         body { 
             font-family: Arial, sans-serif; 
@@ -1281,7 +1281,17 @@
           credentials: "same-origin",
           body: JSON.stringify(body || {})
         });
-        var result = await response.json();
+        var contentType = response.headers.get("content-type") || "";
+        var responseText = await response.text();
+        if (!contentType.includes("application/json")) {
+          throw new Error("Passkeys need the Vercel deployment with its API routes. This static preview cannot run passkey sign-in.");
+        }
+        var result;
+        try {
+          result = JSON.parse(responseText);
+        } catch (error) {
+          throw new Error("The passkey server returned an invalid response. Check the Vercel API deployment.");
+        }
         if (!response.ok) throw new Error(result.error || "Passkey request failed.");
         return result;
       }
