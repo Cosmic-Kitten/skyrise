@@ -14,13 +14,18 @@ function requireStorage() {
 }
 
 function getOrigin(request) {
-  return process.env.PASSKEY_ORIGIN || (process.env.VERCEL_URL
-    ? `https://${process.env.VERCEL_URL}`
-    : `${request.headers["x-forwarded-proto"] || "http"}://${request.headers.host}`);
+  const protocol = request.headers["x-forwarded-proto"] || "http";
+  const requestOrigin = `${protocol}://${request.headers.host}`;
+  if (!process.env.PASSKEY_ORIGIN) return requestOrigin;
+  return new URL(process.env.PASSKEY_ORIGIN).hostname === new URL(requestOrigin).hostname
+    ? process.env.PASSKEY_ORIGIN
+    : requestOrigin;
 }
 
 function getRpId(request) {
-  return process.env.PASSKEY_RP_ID || new URL(getOrigin(request)).hostname;
+  const requestRpId = new URL(getOrigin(request)).hostname;
+  if (!process.env.PASSKEY_RP_ID) return requestRpId;
+  return process.env.PASSKEY_RP_ID === requestRpId ? process.env.PASSKEY_RP_ID : requestRpId;
 }
 
 function getSessionId(request, response) {
