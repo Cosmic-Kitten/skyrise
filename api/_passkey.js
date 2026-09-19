@@ -1,4 +1,4 @@
-const crypto = require("crypto");
+qconst crypto = require("crypto");
 const { Redis } = require("@upstash/redis");
 
 const kv = Redis.fromEnv();
