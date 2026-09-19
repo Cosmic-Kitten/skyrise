@@ -11,6 +11,7 @@
     <link rel="apple-touch-icon" href="icon.svg">
     <meta name="theme-color" content="#096A6A">
     <script src="https://unpkg.com/@simplewebauthn/browser@13.3.0/dist/bundle/index.umd.min.js" defer></script>
+    <script defer src="/_vercel/insights/script.js"></script>
     <style>
         body { 
             font-family: Arial, sans-serif; 
@@ -514,6 +515,12 @@
           .app-nav button { min-height: 36px; margin: 0; padding: 5px 4px; border: 0; border-radius: 11px; background: transparent !important; box-shadow: none; color: var(--soft-white); font-size: 10px; font-weight: 700; }
           .app-nav button:first-child { background: rgba(141,255,201,0.18) !important; color: #d9fff1; }
           .app-nav button:hover { background: rgba(255,255,255,0.12) !important; }
+          .leaderboard-list { display: flex; flex-direction: column; gap: 9px; width: 100%; margin-top: 20px; }
+          .leaderboard-row { display: grid; grid-template-columns: 30px 1fr auto; align-items: center; gap: 10px; padding: 12px; border: 1px solid rgba(255,255,255,0.11); border-radius: 14px; background: rgba(28,39,69,0.72); }
+          .leaderboard-rank { color: #ffd166; font-size: 14px; font-weight: 900; }
+          .leaderboard-name { overflow: hidden; color: #f5f7ff; font-size: 13px; font-weight: 800; text-overflow: ellipsis; white-space: nowrap; }
+          .leaderboard-score { color: #9aa7c4; font-size: 10px; font-weight: 700; text-align: right; }
+          .leaderboard-empty { padding: 26px 16px; border: 1px dashed rgba(255,255,255,0.2); border-radius: 14px; color: #9aa7c4; font-size: 12px; line-height: 1.5; text-align: center; }
           .hit-flash { animation: hit-flash 360ms ease-out; }
           .damage-pop { position: absolute; z-index: 3; top: 42%; left: 50%; color: #fff; font-size: 25px; font-weight: 900; text-shadow: 0 2px 14px rgba(255,105,155,0.9); pointer-events: none; animation: damage-pop 520ms ease-out forwards; }
           @keyframes hit-flash { 0% { transform: scale(1) rotate(0); filter: brightness(1); } 35% { transform: scale(0.92) rotate(-5deg); filter: brightness(1.7); } 100% { transform: scale(1) rotate(0); filter: brightness(1); } }
@@ -1221,6 +1228,7 @@
       body:not(.theme-old-app-lab) #hpBar { background: #0a1020; border-color: var(--app-line); }
       body:not(.theme-old-app-lab) #hpBarFill { background: var(--app-teal); }
       body:not(.theme-old-app-lab) .app-nav { padding: 5px; border: 1px solid var(--app-line); border-radius: 14px; background: #0c1427; }
+      body:not(.theme-old-app-lab) .app-nav { grid-template-columns: repeat(4, 1fr); }
       body:not(.theme-old-app-lab) .app-nav button { color: var(--app-muted); }
       body:not(.theme-old-app-lab) .app-nav button:first-child { background: rgba(98,230,207,.14) !important; color: var(--app-teal); }
 
@@ -1241,6 +1249,12 @@
       body:not(.theme-old-app-lab) #scrDeath { justify-content: center; text-align: center; }
       body:not(.theme-old-app-lab) #scrDeath .banner { padding: 22px !important; background: rgba(255,120,107,.14) !important; border-color: rgba(255,120,107,.35); }
       body:not(.theme-old-app-lab) #scrDeath button { min-height: 58px; }
+      body:not(.theme-old-app-lab) #scrLeaderboard { justify-content: flex-start; gap: 14px; }
+      body:not(.theme-old-app-lab) #scrLeaderboard .leaderboard-heading { display: flex; align-items: flex-end; justify-content: space-between; width: 100%; margin-top: 22px; }
+      body:not(.theme-old-app-lab) #scrLeaderboard h1 { margin: 0; font-size: 28px; letter-spacing: -.8px; }
+      body:not(.theme-old-app-lab) #scrLeaderboard .leaderboard-subtitle { color: var(--app-muted); font-size: 11px; }
+      body:not(.theme-old-app-lab) #scrLeaderboard .leaderboard-list { margin-top: 8px; }
+      body:not(.theme-old-app-lab) #scrLeaderboard .leaderboard-row:first-child { border-color: rgba(255,209,102,.42); background: rgba(255,209,102,.1); }
     </style>
 </head>
 <body>
@@ -1333,6 +1347,7 @@
           <button id="btnNavFight" type="button">Arena</button>
           <button id="btnNavLoadout" type="button">Loadout</button>
           <button id="btnNavBoss" type="button">Boss</button>
+          <button id="btnNavLeaderboard" type="button">Ranks</button>
         </nav>
     </div>
 
@@ -1358,7 +1373,24 @@
         <div class="banner" style="background: #004d4d; font-size: 12px;">Your loadout, tuned for the next climb.</div>
     </div>
 
-    <!-- 5. BOSS FIGHT SCREEN -->
+    <!-- 5. LEADERBOARD SCREEN -->
+    <div id="scrLeaderboard" class="screen" style="background: #111a32;">
+      <div class="screen-art loadout-art"></div>
+      <div class="leaderboard-heading">
+        <div><span class="eyebrow">COMMUNITY</span><h1>Leaderboard</h1></div>
+        <span class="threat-level">TOP RUNS</span>
+      </div>
+      <div class="leaderboard-subtitle">Best profiles saved on this device</div>
+      <div id="leaderboardList" class="leaderboard-list" aria-live="polite"></div>
+      <nav class="app-nav" aria-label="Primary navigation">
+        <button id="btnNavLeaderboardHome" type="button">Arena</button>
+        <button id="btnNavLeaderboardLoadout" type="button">Loadout</button>
+        <button id="btnNavLeaderboardBoss" type="button">Boss</button>
+        <button id="btnNavLeaderboardActive" type="button">Ranks</button>
+      </nav>
+    </div>
+
+    <!-- 6. BOSS FIGHT SCREEN -->
     <div id="scrBoss" class="screen" style="background: #4a154b;">
       <div class="screen-art boss-art"></div>
         <div id="lblBossLvl" class="banner" style="background: #6f42c1;">Boss Level: ?</div>
@@ -1723,6 +1755,28 @@
       function updateDOTLabel() { setText("lblDot", "DOT: " + dotPwr + "/sec    Cost: " + dotPrice + " XP"); }
       function updateXPOTUpgradeLabel() { setText("lblXPOT", "XP/sec: " + xptPwr + "    Cost: " + xpotPrice + " XP"); }
       function updateLevelLabel() { setText("lblLvl", "Lvl: " + lvl); }
+      function updateLeaderboard() {
+        var list = document.getElementById("leaderboardList");
+        if (!list) return;
+        var profiles = [];
+        for (var i = 0; i < localStorage.length; i++) {
+          var key = localStorage.key(i);
+          if (!key || key.indexOf("saveData_") !== 0) continue;
+          try {
+            var data = JSON.parse(localStorage.getItem(key));
+            profiles.push({ name: key.slice(9), lvl: Number(data.lvl) || 1, xp: Number(data.xp) || 0 });
+          } catch (error) {}
+        }
+        profiles.sort(function(a, b) { return b.lvl - a.lvl || b.xp - a.xp || a.name.localeCompare(b.name); });
+        if (!profiles.length) {
+          list.innerHTML = '<div class="leaderboard-empty">Play a few rounds to create the first ranked profile.</div>';
+          return;
+        }
+        list.innerHTML = profiles.slice(0, 10).map(function(profile, index) {
+          var safeName = profile.name.replace(/[&<>'"]/g, function(character) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", "'": "&#39;", "\"": "&quot;" }[character]; });
+          return '<div class="leaderboard-row"><span class="leaderboard-rank">' + (index + 1) + '</span><span class="leaderboard-name">' + safeName + '</span><span class="leaderboard-score">LVL ' + profile.lvl + '<br>' + profile.xp + ' XP</span></div>';
+        }).join("");
+      }
       function updateEnemyHP() {
         setText("lblHP", "ENEMY HP: " + hp);
         var healthFill = document.getElementById("enemyHealthFill");
@@ -1769,6 +1823,22 @@
         isPaused = false; currentScreen = "scrUpg"; setScreen("scrUpg");
         updateXPLabels(); updateUpgradeLabel(); updateDOTLabel(); updateXPOTUpgradeLabel();
       });
+      onEvent("btnNavLeaderboard", "click", function () {
+        isPaused = false; currentScreen = "scrLeaderboard"; setScreen("scrLeaderboard"); updateLeaderboard();
+      });
+      onEvent("btnNavLeaderboardHome", "click", function () {
+        isPaused = false; currentScreen = "scrFight"; setScreen("scrFight"); saveGame();
+      });
+      onEvent("btnNavLeaderboardLoadout", "click", function () {
+        isPaused = false; currentScreen = "scrUpg"; setScreen("scrUpg");
+        updateXPLabels(); updateUpgradeLabel(); updateDOTLabel(); updateXPOTUpgradeLabel();
+      });
+      onEvent("btnNavLeaderboardBoss", "click", function () {
+        isPaused = false; currentScreen = "scrBoss"; setScreen("scrBoss");
+        bossHP = bossBaseHP; bossTimer = bossTime;
+        setText("lblBossHP", "Boss HP: " + bossHP); setText("lblBossLvl", "Boss Lvl: " + bossLvl);
+      });
+      onEvent("btnNavLeaderboardActive", "click", updateLeaderboard);
       onEvent("btnNavBoss", "click", function () {
         var required = Math.ceil(lvl / 5) * 5;
         if (lvl >= required) {
