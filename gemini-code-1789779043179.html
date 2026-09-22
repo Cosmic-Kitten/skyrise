@@ -475,6 +475,7 @@
           .battle-heading strong { display: block; margin-top: 4px; font-size: 22px; letter-spacing: -0.8px; }
           .eyebrow { color: var(--soft-white); font-size: 9px; font-weight: 700; letter-spacing: 1.7px; }
           .live-dot, .threat-level { color: #b6ffe8; font-size: 9px; font-weight: 800; letter-spacing: 1px; }
+          .battle-stats .banner { text-align: center; font-size: 11px !important; }
           .live-dot::before { content: ""; display: inline-block; width: 6px; height: 6px; margin-right: 5px; border-radius: 50%; background: #8dffc9; box-shadow: 0 0 10px #8dffc9; }
           #scrFight .battle-stats { gap: 10px; }
           #scrFight .battle-stats .banner { flex: 1; width: auto !important; padding: 11px !important; font-size: 12px !important; text-align: left; }
@@ -1305,9 +1306,10 @@
         </div>
         <span class="live-dot">LIVE</span>
       </div>
-      <div class="battle-stats" style="display: flex; justify-content: space-between; width: 100%;">
-            <div id="lblLvl" class="banner" style="width: 48%; padding: 6px;">LEVEL 1</div>
-            <div id="lblXP" class="banner" style="width: 48%; padding: 6px;">0 XP</div>
+      <div class="battle-stats" style="display: flex; justify-content: space-between; width: 100%; gap: 8px;">
+            <div id="lblLvl" class="banner" style="width: 32%; padding: 6px;">LEVEL 1</div>
+            <div id="lblXP" class="banner" style="width: 32%; padding: 6px;">0 XP</div>
+            <div id="lblCombo" class="banner" style="width: 32%; padding: 6px;">Combo x1</div>
         </div>
         
       <div class="enemy-card">
@@ -1481,6 +1483,7 @@
       var bossLvl = 1, bossHP = 50, bossBaseHP = 50, bossTime = 10, bossTimer = 0, bossInterval = null;
       var punchCooldown = 500, lastPunchAt = 0, enemyDamage = 1;
       var passiveTicker = null;
+      var combo = 1, comboResetTimer = null, critChance = 0.15;
       var oldVersionEnabled = false;
       function getPasskeyBrowser() {
         if (!window.isSecureContext || !window.PublicKeyCredential) {
@@ -1754,6 +1757,10 @@
         setText("lblXP", "XP: " + xp);
         if(document.getElementById("lblXP2")) setText("lblXP2", "XP: " + xp);
       }
+      function updateComboLabel() {
+        var comboEl = document.getElementById("lblCombo");
+        if (comboEl) comboEl.textContent = "Combo x" + combo;
+      }
       function updateUpgradeLabel() { setText("lblUpg", "Pwr: " + pwr + "    Cost: " + upgPrice + " XP"); }
       function updateDOTLabel() { setText("lblDot", "DOT: " + dotPwr + "/sec    Cost: " + dotPrice + " XP"); }
       function updateXPOTUpgradeLabel() { setText("lblXPOT", "XP/sec: " + xptPwr + "    Cost: " + xpotPrice + " XP"); }
@@ -1786,7 +1793,7 @@
         if (healthFill) healthFill.style.width = Math.max(0, Math.min(100, (hp / baseHP) * 100)) + "%";
       }
 
-      function showDamageFeedback(amount) {
+      function showDamageFeedback(amount, crit) {
         var slime = document.querySelector("#scrFight .slime-img");
         var arena = document.querySelector("#scrFight .arena-stage");
         if (!slime || !arena) return;
@@ -1795,18 +1802,36 @@
         slime.classList.add("hit-flash");
         var damage = document.createElement("span");
         damage.className = "damage-pop";
-        damage.textContent = "-" + (amount || pwr);
+        damage.textContent = crit ? "CRIT! -" + amount : "-" + amount;
+        damage.style.color = crit ? "#ffe59a" : "#fff";
         arena.appendChild(damage);
         setTimeout(function() { damage.remove(); }, 600);
       }
 
+      function registerComboHit() {
+        combo = Math.min(10, combo + 1);
+        if (comboResetTimer) clearTimeout(comboResetTimer);
+        comboResetTimer = setTimeout(function() {
+          combo = 1;
+          updateComboLabel();
+        }, 2600);
+        updateComboLabel();
+      }
+
       function damageEnemy(amount) {
         if (isPaused || currentScreen !== "scrFight") return false;
-        hp -= amount; if (hp < 0) hp = 0;
-        showDamageFeedback(amount);
+        var crit = Math.random() < (critChance + lvl * 0.01);
+        var finalDamage = Math.round(amount * (crit ? 2.2 : 1));
+        hp -= finalDamage; if (hp < 0) hp = 0;
+        registerComboHit();
+        showDamageFeedback(finalDamage, crit);
         updateEnemyHP();
         if (hp <= 0) {
-          xp += xpGain; playerHP = playerMaxHP; updateHPBar();
+          xp += xpGain + combo;
+          playerHP = playerMaxHP;
+          combo = 1;
+          updateHPBar();
+          updateComboLabel();
           maybeLevelUp();
           updateBossRequirementLabel(); newEnemy(); saveGame();
         }
@@ -1881,6 +1906,14 @@
           damageEnemy(pwr);
         });
       }
+
+      window.addEventListener("keydown", function (event) {
+        if ((event.code === "Space" || event.code === "KeyA") && currentScreen === "scrFight" && !isPaused) {
+          event.preventDefault();
+          if (!beginPunch("btnHit")) return;
+          damageEnemy(pwr);
+        }
+      });
 
       onEvent("dropActions", "change", function () {
         var i = getProperty("dropActions", "index");
