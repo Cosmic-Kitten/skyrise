@@ -1579,6 +1579,9 @@
         passiveTicker = setInterval(function() {
           if (isPaused || !playerName) return;
           if ((currentScreen === "scrFight" || currentScreen === "scrBoss") && hp > 0) {
+            if (currentScreen === "scrFight") {
+              enemyRetaliates();
+            }
             if (dotPwr > 0) {
               takePlayerDamage(dotPwr);
             }
@@ -1783,7 +1786,7 @@
         if (healthFill) healthFill.style.width = Math.max(0, Math.min(100, (hp / baseHP) * 100)) + "%";
       }
 
-      function showDamageFeedback() {
+      function showDamageFeedback(amount) {
         var slime = document.querySelector("#scrFight .slime-img");
         var arena = document.querySelector("#scrFight .arena-stage");
         if (!slime || !arena) return;
@@ -1792,9 +1795,22 @@
         slime.classList.add("hit-flash");
         var damage = document.createElement("span");
         damage.className = "damage-pop";
-        damage.textContent = "-" + pwr;
+        damage.textContent = "-" + (amount || pwr);
         arena.appendChild(damage);
         setTimeout(function() { damage.remove(); }, 600);
+      }
+
+      function damageEnemy(amount) {
+        if (isPaused || currentScreen !== "scrFight") return false;
+        hp -= amount; if (hp < 0) hp = 0;
+        showDamageFeedback(amount);
+        updateEnemyHP();
+        if (hp <= 0) {
+          xp += xpGain; playerHP = playerMaxHP; updateHPBar();
+          maybeLevelUp();
+          updateBossRequirementLabel(); newEnemy(); saveGame();
+        }
+        return true;
       }
       function updateBossRequirementLabel() {
         var required = Math.ceil(lvl / 5) * 5;
@@ -1852,18 +1868,19 @@
       });
 
       onEvent("btnHit", "click", function () {
-        if (isPaused) return;
+        if (isPaused || currentScreen !== "scrFight") return;
         if (!beginPunch("btnHit")) return;
-        hp -= pwr; if (hp < 0) hp = 0;
-        showDamageFeedback();
-        updateEnemyHP();
-        enemyRetaliates();
-        if (hp <= 0) { 
-          xp += xpGain; playerHP = playerMaxHP; updateHPBar(); 
-          maybeLevelUp();
-          updateBossRequirementLabel(); newEnemy(); saveGame(); 
-        }
+        damageEnemy(pwr);
       });
+
+      var slimeTarget = document.querySelector("#scrFight .slime-img");
+      if (slimeTarget) {
+        slimeTarget.addEventListener("click", function () {
+          if (isPaused || currentScreen !== "scrFight") return;
+          if (!beginPunch("btnHit")) return;
+          damageEnemy(pwr);
+        });
+      }
 
       onEvent("dropActions", "change", function () {
         var i = getProperty("dropActions", "index");
