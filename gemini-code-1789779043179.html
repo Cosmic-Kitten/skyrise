@@ -216,6 +216,16 @@
               radial-gradient(circle at 88% 90%, rgba(166, 232, 255, 0.18), transparent 34%),
               linear-gradient(180deg, #edf3ff 0%, #e0eaf9 34%, #d7e4f7 100%);
             color: #0f172a;
+            --white: #0f172a;
+            --soft-white: rgba(15, 23, 42, 0.72);
+            --ink: #0f172a;
+            --muted: #475569;
+            --glass: rgba(255,255,255,0.62);
+            --glass-strong: rgba(255,255,255,0.8);
+            --glass-line: rgba(120, 137, 168, 0.2);
+            --blue: #2563eb;
+            --pink: #d946ef;
+            --mint: #0f766e;
           }
 
           .screen {
@@ -234,6 +244,52 @@
             background: linear-gradient(180deg, rgba(255,255,255,0.82), rgba(238,244,255,0.92)) !important;
             border-color: rgba(120, 137, 168, 0.18);
             box-shadow: 0 24px 70px rgba(62, 76, 102, 0.15), inset 0 1px rgba(255,255,255,0.9);
+          }
+
+          body[data-theme="light"] .screen::before {
+            color: rgba(41, 65, 97, 0.82);
+          }
+
+          body[data-theme="light"] .banner,
+          body[data-theme="light"] #scrLogin .banner,
+          body[data-theme="light"] #scrSignup .banner,
+          body[data-theme="light"] .enemy-card,
+          body[data-theme="light"] .leaderboard-row,
+          body[data-theme="light"] .app-nav,
+          body[data-theme="light"] .settings-panel {
+            background: rgba(255, 255, 255, 0.78) !important;
+            border-color: rgba(120, 137, 168, 0.18);
+            color: #0f172a;
+          }
+
+          body[data-theme="light"] #scrLogin label,
+          body[data-theme="light"] #scrSignup label,
+          body[data-theme="light"] .app-brand,
+          body[data-theme="light"] .app-profile,
+          body[data-theme="light"] .eyebrow,
+          body[data-theme="light"] .player-health > span,
+          body[data-theme="light"] #lblHP,
+          body[data-theme="light"] .enemy-caption,
+          body[data-theme="light"] .leaderboard-name,
+          body[data-theme="light"] .battle-stats .banner,
+          body[data-theme="light"] .enemy-card #lblHP {
+            color: #0f172a !important;
+          }
+
+          body[data-theme="light"] .passkey-btn,
+          body[data-theme="light"] #scrLogin > button:last-child {
+            color: #0f172a !important;
+            background: rgba(255,255,255,0.72) !important;
+          }
+
+          body[data-theme="light"] #ErrorMsg {
+            color: #b91c1c !important;
+          }
+
+          body[data-theme="light"] .settings-row,
+          body[data-theme="light"] .settings-header,
+          body[data-theme="light"] .settings-close {
+            color: #0f172a !important;
           }
 
           .screen::before {
@@ -1508,6 +1564,81 @@
       body:not(.theme-old-app-lab) #scrLeaderboard .leaderboard-subtitle { color: var(--app-muted); font-size: 11px; }
       body:not(.theme-old-app-lab) #scrLeaderboard .leaderboard-list { margin-top: 8px; }
       body:not(.theme-old-app-lab) #scrLeaderboard .leaderboard-row:first-child { border-color: rgba(255,209,102,.42); background: rgba(255,209,102,.1); }
+
+      body[data-theme="dark"]:not(.theme-old-app-lab) {
+        --app-ink: #f3f6fc;
+        --app-muted: #a8b4c9;
+        --app-line: rgba(185, 199, 224, 0.2);
+        --app-panel: rgba(20, 29, 46, 0.86);
+        --app-panel-strong: rgba(25, 36, 56, 0.94);
+        --app-teal: #75dfd0;
+        background: linear-gradient(180deg, #0c1320 0%, #101a2a 48%, #111827 100%) !important;
+        color: var(--app-ink);
+      }
+
+      body[data-theme="light"]:not(.theme-old-app-lab) {
+        --app-ink: #101828;
+        --app-muted: #56657f;
+        --app-line: rgba(143, 163, 196, 0.24);
+        --app-panel: rgba(255,255,255,0.78);
+        --app-panel-strong: rgba(255,255,255,0.9);
+        --app-teal: #278f91;
+        background: linear-gradient(180deg, #edf4ff 0%, #dfe9fb 36%, #dce9f6 100%) !important;
+        color: var(--app-ink);
+      }
+
+      body[data-theme="dark"]:not(.theme-old-app-lab) .screen {
+        background: linear-gradient(180deg, rgba(24,35,54,.94), rgba(12,19,32,.97)) !important;
+        border-color: rgba(185,199,224,.2);
+        box-shadow: 0 24px 70px rgba(0,0,0,.42), inset 0 1px rgba(255,255,255,.08);
+      }
+
+      body[data-theme="light"]:not(.theme-old-app-lab) .screen {
+        background: linear-gradient(180deg, rgba(255,255,255,.88), rgba(239,245,255,.96)) !important;
+        border-color: rgba(120,137,168,.22);
+        box-shadow: 0 24px 70px rgba(62,74,109,.15), inset 0 1px rgba(255,255,255,.92);
+      }
+
+      body[data-theme="dark"]:not(.theme-old-app-lab) .screen::before { color: rgba(220,231,248,.7); }
+      body[data-theme="light"]:not(.theme-old-app-lab) .screen::before { color: rgba(46,66,100,.72); }
+      body[data-theme="dark"]:not(.theme-old-app-lab) .banner { background: var(--app-panel) !important; border-color: var(--app-line); color: var(--app-ink); }
+      body[data-theme="light"]:not(.theme-old-app-lab) .banner { background: var(--app-panel) !important; border-color: var(--app-line); color: var(--app-ink); }
+      body[data-theme="dark"]:not(.theme-old-app-lab) #scrLogin .banner,
+      body[data-theme="dark"]:not(.theme-old-app-lab) #scrSignup .banner,
+      body[data-theme="light"]:not(.theme-old-app-lab) #scrLogin .banner,
+      body[data-theme="light"]:not(.theme-old-app-lab) #scrSignup .banner { background: transparent !important; color: var(--app-ink); }
+      body[data-theme="dark"]:not(.theme-old-app-lab) input,
+      body[data-theme="dark"]:not(.theme-old-app-lab) select { background: rgba(18,28,45,.96) !important; border-color: var(--app-line); color: var(--app-ink); }
+      body[data-theme="light"]:not(.theme-old-app-lab) input,
+      body[data-theme="light"]:not(.theme-old-app-lab) select { background: rgba(255,255,255,.92) !important; border-color: var(--app-line); color: var(--app-ink); }
+      body[data-theme="dark"]:not(.theme-old-app-lab) button:not(.green-btn):not(.red-btn):not(.purple-btn):not(#btnHit),
+      body[data-theme="dark"]:not(.theme-old-app-lab) .settings-close { color: var(--app-ink); }
+      body[data-theme="light"]:not(.theme-old-app-lab) button:not(.green-btn):not(.red-btn):not(.purple-btn):not(#btnHit),
+      body[data-theme="light"]:not(.theme-old-app-lab) .settings-close { color: var(--app-ink); }
+      body[data-theme="dark"]:not(.theme-old-app-lab) #scrLogin label,
+      body[data-theme="dark"]:not(.theme-old-app-lab) #scrSignup label,
+      body[data-theme="dark"]:not(.theme-old-app-lab) .app-brand,
+      body[data-theme="dark"]:not(.theme-old-app-lab) .app-profile,
+      body[data-theme="dark"]:not(.theme-old-app-lab) .eyebrow,
+      body[data-theme="dark"]:not(.theme-old-app-lab) .player-health > span,
+      body[data-theme="dark"]:not(.theme-old-app-lab) .settings-row,
+      body[data-theme="dark"]:not(.theme-old-app-lab) .settings-header { color: var(--app-muted); }
+      body[data-theme="light"]:not(.theme-old-app-lab) #scrLogin label,
+      body[data-theme="light"]:not(.theme-old-app-lab) #scrSignup label,
+      body[data-theme="light"]:not(.theme-old-app-lab) .app-brand,
+      body[data-theme="light"]:not(.theme-old-app-lab) .app-profile,
+      body[data-theme="light"]:not(.theme-old-app-lab) .eyebrow,
+      body[data-theme="light"]:not(.theme-old-app-lab) .player-health > span,
+      body[data-theme="light"]:not(.theme-old-app-lab) .settings-row,
+      body[data-theme="light"]:not(.theme-old-app-lab) .settings-header { color: var(--app-muted); }
+      body[data-theme="dark"]:not(.theme-old-app-lab) .enemy-card,
+      body[data-theme="dark"]:not(.theme-old-app-lab) .leaderboard-row,
+      body[data-theme="dark"]:not(.theme-old-app-lab) .settings-panel { background: var(--app-panel) !important; border-color: var(--app-line); color: var(--app-ink); }
+      body[data-theme="light"]:not(.theme-old-app-lab) .enemy-card,
+      body[data-theme="light"]:not(.theme-old-app-lab) .leaderboard-row,
+      body[data-theme="light"]:not(.theme-old-app-lab) .settings-panel { background: var(--app-panel) !important; border-color: var(--app-line); color: var(--app-ink); }
+      body[data-theme="light"]:not(.theme-old-app-lab) .app-nav { background: rgba(255,255,255,.65); border-color: var(--app-line); }
+      body[data-theme="dark"]:not(.theme-old-app-lab) .app-nav { background: rgba(7,14,26,.66); border-color: var(--app-line); }
     </style>
 </head>
 <body>
@@ -1924,6 +2055,7 @@
       }
 
       setScreen("scrLogin");
+      toggleSettingsPanel(true);
 
       onEvent("btnToggleTheme", "click", function() {
         applyTheme(!oldVersionEnabled);
@@ -2322,13 +2454,11 @@
     </script>
     <script>
       if ("serviceWorker" in navigator) {
-        window.addEventListener("load", function () {
-          navigator.serviceWorker.register("sw.js", { updateViaCache: "none" }).then(function () {
-            return navigator.serviceWorker.getRegistration();
-          }).then(function (registration) {
-            if (registration) return registration.update();
-          }).catch(function () {});
-        });
+        navigator.serviceWorker.getRegistrations().then(function (registrations) {
+          registrations.forEach(function (registration) {
+            registration.unregister().catch(function () {});
+          });
+        }).catch(function () {});
       }
     </script>
 </body>

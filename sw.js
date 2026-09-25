@@ -1,7 +1,8 @@
-const CACHE_NAME = "sky-rise-v3";
+const CACHE_NAME = "sky-rise-v5";
 const APP_SHELL = [
   "./index.html",
   "./gemini-code-1789779043179.html",
+  "./sky-rise-plain.html",
   "./manifest.json",
   "./icon.png",
   "./icon.svg"
