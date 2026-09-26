@@ -1973,12 +1973,16 @@
         }
       }
 
-      function applyAppearance(themeName) {
+      function applyAppearance(themeName, persistPreference) {
         var normalizedTheme = (themeName === "light") ? "light" : "dark";
         document.body.setAttribute("data-theme", normalizedTheme);
-        localStorage.setItem("sky-rise-theme", normalizedTheme);
         var select = document.getElementById("themeSelect");
-        if (select) select.value = normalizedTheme;
+        if (select && select.value !== normalizedTheme) select.value = normalizedTheme;
+        if (persistPreference) {
+          window.setTimeout(function() {
+            localStorage.setItem("sky-rise-theme", normalizedTheme);
+          }, 0);
+        }
       }
 
       function applySettingsState() {
@@ -1986,7 +1990,7 @@
         var soundEnabled = localStorage.getItem("sky-rise-sound") !== "off";
         var reducedMotion = localStorage.getItem("sky-rise-reduced-motion") === "on";
 
-        applyAppearance(savedTheme);
+        applyAppearance(savedTheme, false);
         document.body.classList.toggle("reduced-motion", reducedMotion);
         document.body.setAttribute("data-sound", soundEnabled ? "on" : "off");
 
@@ -2074,7 +2078,7 @@
       });
 
       onEvent("themeSelect", "change", function() {
-        applyAppearance(this.value);
+        applyAppearance(this.value, true);
       });
 
       onEvent("soundToggle", "change", function() {
